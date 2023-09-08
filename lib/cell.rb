@@ -16,7 +16,12 @@ class Cell
   end
 
   def fire_upon
-    @ship.hit
     @fired_upon = true
+    return if @ship == nil
+    @ship.hit
+  end
+
+  def fired_upon?
+    @fired_upon 
   end
 end

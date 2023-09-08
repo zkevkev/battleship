@@ -36,10 +36,17 @@ RSpec.describe Cell do
 
   describe "#fire_upon and #fired_upon?" do
     it "fires on a cell and updates state" do
+      @cell.place_ship(@cruiser)
       expect(@cell.fired_upon?).to be false
       @cell.fire_upon
       expect(@cell.fired_upon?).to be true
       expect(@cell.ship.health).to eq(2)
+    end
+
+    it "still functions if cell does not contain ship" do
+      expect(@cell.fired_upon?).to be false
+      @cell.fire_upon
+      expect(@cell.fired_upon?).to be true
     end
   end
 end
