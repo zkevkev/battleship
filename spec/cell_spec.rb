@@ -16,4 +16,12 @@ RSpec.describe Cell do
       expect(@cell.ship).to be nil
     end
   end
+
+  describe "#empty?" do
+    it "defaults to true" do
+      expect(@cell.empty?).to be true
+    end
+  end
+
+  
 end
