@@ -91,6 +91,19 @@ RSpec.describe Cell do
       expect(@cell_1.render).to eq(".")
     end
 
+    it "reveals ship status if hit and passed true" do
+      @cell_1.fire_upon
+      expect(@cell_1.render(true)).to eq("M")
+      @cell_1.place_ship(@cruiser)
+      @cell_2.place_ship(@cruiser)
+      @cell_3.place_ship(@cruiser)
+      @cell_1.fire_upon
+      expect(@cell_1.render(true)).to eq("H")
+      @cell_2.fire_upon
+      @cell_3.fire_upon
+      expect(@cell_1.render(true)).to eq("X")
+    end
+
     it "will do nothing if passed another argument" do
       expect(@cell_1.render).to eq(".")
       @cell_1.place_ship(@cruiser)
