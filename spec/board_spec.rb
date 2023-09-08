@@ -26,4 +26,14 @@ RSpec.describe Board do
       end
     end
   end
+
+  describe "#valid_coordinate?" do
+    it "returns boolean result of coordinate test" do
+      expect(@board.valid_coordinate?('A1')).to be true
+      expect(@board.valid_coordinate?('D4')).to be true
+      expect(@board.valid_coordinate?('A5')).to be false
+      expect(@board.valid_coordinate?('E1')).to be false
+      expect(@board.valid_coordinate?('A22')).to be false
+    end
+  end
 end
