@@ -21,7 +21,9 @@ RSpec.describe Board do
       @board.cells
       expect(@board.coordinates).to be_a(Hash)
       expect(@board.coordinates.length).to eq(16)
-      expect(@board.coordinates[:A1]).to be_an_instance_of(Cell)
+      @board.coordinates.each do |coordinate, cell_object|
+        expect(cell_object).to be_an_instance_of(Cell)
+      end
     end
   end
 end
