@@ -21,5 +21,8 @@ class Board
     @coordinates
   end
 
-
+  def valid_coordinate?(coordinate)
+    valid_coordinates = coordinates.keys
+    valid_coordinates.include?(coordinate)
+  end
 end
