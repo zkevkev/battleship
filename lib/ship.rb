@@ -9,7 +9,7 @@ class Ship
   end
 
   def sunk?
-    @sunk == true #should this querry method also include a check?
+    @sunk #should this querry method also include a check?
   end
 
   def hit
