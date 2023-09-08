@@ -33,4 +33,20 @@ RSpec.describe Cell do
       expect(@cell.empty?).to be false
     end
   end
+
+  describe "#fire_upon" do
+    it "fires on a cell" do
+      expect(@cell.fired_upon?).to be false
+      @cell.fire_upon
+      expect(@cell.fired_upon?).to be true
+      expect(@cell.ship.health).to eq(2)
+    end
+  end
+
+  describe "#fired_upon?" do
+    it "can tell if a cell has been fired upon" do
+      expect(@cell.fired_upon?).to be false
+
+    end
+  end
 end
