@@ -7,10 +7,6 @@ class Cell
   end
   
   def empty?
-    if @ship == nil
-      true
-    else
-      false
-    end
+    @ship == nil ? true : false
   end
 end
