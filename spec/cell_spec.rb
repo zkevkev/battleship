@@ -83,4 +83,25 @@ RSpec.describe Cell do
       @cell_3.fire_upon
       expect(@cell_2.render).to eq("X")
   end
+
+    it "reveals ship location when passed true" do
+      expect(@cell_1.render).to eq(".")
+      @cell_1.place_ship(@cruiser)
+      expect(@cell_1.render(true)).to eq("S")
+      expect(@cell_1.render).to eq(".")
+    end
+
+    it "will do nothing if passed another argument" do
+      expect(@cell_1.render).to eq(".")
+      @cell_1.place_ship(@cruiser)
+      expect(@cell_1.render("Gobbledegoop")).to eq(".")
+      expect(@cell_1.render).to eq(".")
+    end
+
+    it "reveals empty if no ship is present" do
+      expect(@cell_1.render).to eq(".")
+      expect(@cell_1.render(true)).to eq(".")
+      expect(@cell_1.render).to eq(".")
+    end
+  end
 end
