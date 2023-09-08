@@ -17,9 +17,14 @@ RSpec.describe Ship do
   end
 
   describe "#sunk?" do
-    it "can tell if a ship is sunk or not" do
+    it "ship defaults as not sunk" do
       expect(@cruiser.sunk?).to be false
     end
-
+    
+    it "can tell when a ship is sunk" do
+      expect(@cruiser.sunk?).to be false
+      @cruiser.sunk = true
+      expect(@cruiser.sunk?).to be true
+    end
   end
 end
