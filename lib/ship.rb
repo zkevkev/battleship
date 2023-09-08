@@ -1,6 +1,5 @@
 class Ship
-  attr_reader :name, :length
-  attr_accessor :health # edit this when ready
+  attr_reader :name, :length, :health
 
   def initialize(name, length)
     @name = name
@@ -10,7 +9,7 @@ class Ship
   end
 
   def sunk?
-    @sunk #should this querry method also include a check?
+    @sunk # should this querry method also include a check?
   end
 
   def hit
