@@ -1,4 +1,6 @@
 class Board
+  attr_reader :coordinates
+
   def initialize
     @coordinates = {}
   end
@@ -13,6 +15,11 @@ class Board
         pairs << alpha + num
       end
     end
-    pairs.sort
+    pairs.sort.each do |pair|
+      @coordinates[pair] = Cell.new(pair)
+    end
+    @coordinates
   end
+
+
 end
