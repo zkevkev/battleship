@@ -33,7 +33,10 @@ RSpec.describe Ship do
     it "decrements health" do
       expect(@cruiser.health).to eq(3)
       @cruiser.hit
-      
+      expect(@cruiser.health).to eq(2)
+      2.times {@cruiser.hit}
+      expect(@cruiser.health).to eq(0)
+      expect(@cruiser.sunk?).to be true
     end
   end
 end
