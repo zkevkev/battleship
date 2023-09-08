@@ -12,4 +12,6 @@ class Ship
   def sunk?
     @sunk
   end
+
+  
 end
