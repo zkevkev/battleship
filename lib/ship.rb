@@ -10,8 +10,11 @@ class Ship
   end
 
   def sunk?
-    @sunk
+    @sunk == true #should this querry method also include a check?
   end
 
-  
+  def hit
+    @health -= 1
+    @sunk = true if @health == 0
+  end
 end

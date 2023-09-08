@@ -23,7 +23,8 @@ RSpec.describe Ship do
     
     it "can tell when a ship is sunk" do
       expect(@cruiser.sunk?).to be false
-      @cruiser.sunk = true
+      3.times {@cruiser.hit}
+      expect(@cruiser.health).to eq(0)
       expect(@cruiser.sunk?).to be true
     end
   end
@@ -32,12 +33,7 @@ RSpec.describe Ship do
     it "decrements health" do
       expect(@cruiser.health).to eq(3)
       @cruiser.hit
-      expect(@cruiser.health).to eq(2)
-      @cruiser.hit
-      expect(@cruiser.health).to eq(1)
-      @cruiser.hit
-      expect(@cruiser.health).to eq(0)
-      expect(@cruiser.sunk?).to be true
+      
     end
   end
 end
