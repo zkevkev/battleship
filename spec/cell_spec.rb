@@ -4,6 +4,7 @@ RSpec.describe Cell do
 
   before(:each) do
     @cell = Cell.new("B4")
+    @cruiser = Ship.new("Cruiser", 3)
   end
 
   describe "#initialize" do
@@ -23,5 +24,13 @@ RSpec.describe Cell do
     end
   end
 
-  
+  describe "#place_ship" do
+    it "assigns ship attribute" do
+      expect(@cell.ship).to be_nil
+      expect(@cell.empty?).to be true
+      @cell.place_ship(@cruiser)
+      expect(@cell.ship).to eq(@cruiser)
+      expect(@cell.empty?).to be false
+    end
+  end
 end
