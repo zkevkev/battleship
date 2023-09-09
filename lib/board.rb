@@ -26,6 +26,20 @@ class Board
     valid_coordinates.include?(coordinate)
   end
 
+  def horizontal_helper(ship, placement)
+    numbers = placement.map { |number| number[1].ord }
+    current_index = 0
+    until current_index == (placement.length - 1)
+      diff = numbers[current_index] - numbers[current_index + 1]
+      if diff == 1 || diff == -1
+        current_index += 1
+      else
+        return false
+      end
+    end
+    true
+  end
+
   def valid_placement?(ship, placement)
     ship.length == placement.length
   end
