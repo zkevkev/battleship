@@ -25,4 +25,8 @@ class Board
     valid_coordinates = coordinates.keys
     valid_coordinates.include?(coordinate)
   end
+
+  def valid_placement?(ship, placement)
+    ship.length == placement.length
+  end
 end
