@@ -106,4 +106,28 @@ class Board
       @cells[coordinate].fire_upon
     end
   end
+
+  def computer_ship_placement
+    cruiser = Ship.new("Cruiser", 3)
+    submarine = Ship.new("Submarine", 2)
+
+    # Randomizing
+    # Place Horizontal OR Vertical
+    if Random.new.rand(0..1) == 0
+      # do horizonal things
+    else
+      # do vertical things
+    end
+    # If place ship horizontally
+      # each_cons to get sequential numbers
+      # Randomly pick one of the sequences (1-2 OR 1-3)
+      # generate random letter A through D, and tack it on to get coordinates
+
+    # If veritcally 
+      # each_cons to get sequential letters
+      # Randomly pick one of the sequences (1-2 OR 1-3)
+      # generate random number 1 through 4, and tack it on to get coordinates
+    @board.cells[@board.cells.keys.sample]
+    if 
+  end
 end
