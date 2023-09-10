@@ -27,7 +27,7 @@ class Board
   end
 
   def horizontal_helper(ship, placement)
-    numbers = placement.map { |number| number[1].ord }
+    numbers = placement.map { |number| number[1..-1].ord }
     current_index = 0
     until current_index == (placement.length - 1)
       diff = numbers[current_index] - numbers[current_index + 1]
@@ -55,6 +55,12 @@ class Board
   end
   
   def valid_placement?(ship, placement)
-    ship.length == placement.length
+    if horizontal_helper(ship, placement) == true && vertical_helper(ship, placement) == true
+      false
+    elsif ship.length == placement.length && horizontal_helper(ship, placement) == true || vertical_helper(ship, placement) == true
+      true
+    else
+      false
+    end
   end
 end
