@@ -117,5 +117,31 @@ RSpec.describe Board do
 
       expect(@board.render(true)).to eq("  1 2 3 4 \nA S S S . \nB . . . . \nC . . . . \nD . . . . \n")
     end
+
+    it "renders board information after actions taken" do
+      @board.place(@cruiser, ["A1", "A2", "A3"])
+      @board.place(@submarine, ["C1", "D1"])
+      # needs firing method
+     
+      expect(@board.render).to eq("  1 2 3 4 \nA H . . . \nB . . . M \nC X . . . \nD X . . . \n")
+    end
+  end
+
+  describe "#fire_upon" do
+    it "fires on the board using input coordinate" do
+      @board.place(@cruiser, ["A1", "A2", "A3"])
+      @board.place(@submarine, ["C1", "D1"])
+      @board.fire_upon("A1")
+
+      expect(@board.cells["A1"].fired_upon?).to be true
+    end
+
+    it "will not not allow firing on invalid coordinates" do
+      expect(@board.fire_upon("X1")).to eq("Please enter a valid coordinate:")
+
+      @board.fire_upon("A1")
+
+      expect(@board.fire_upon("A1")).to eq("That coordinate has already been fired upon")
+    end
   end
 end
