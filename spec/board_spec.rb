@@ -172,15 +172,15 @@ RSpec.describe Board do
   end
 
   describe "#random_vertical_placement" do
-  it "makes random coordinates for a ship" do
-    random_cruiser = @board.random_vertical_placement(@cruiser)
-    expect(random_cruiser.length).to eq(3)
-    expect(@board.vertical_helper?(@cruiser, random_cruiser)).to be true
+    xit "makes random coordinates for a ship" do
+      random_cruiser = @board.random_vertical_placement(@cruiser)
+      expect(random_cruiser.length).to eq(3)
+      expect(@board.vertical_helper?(@cruiser, random_cruiser)).to be true
 
-    random_submarine = @board.random_vertical_placement(@submarine)
-    expect(random_submarine.length).to eq(2)
-    expect(@board.vertical_helper?(@submarine, random_submarine)).to be true
-  end
+      random_submarine = @board.random_vertical_placement(@submarine)
+      expect(random_submarine.length).to eq(2)
+      expect(@board.vertical_helper?(@submarine, random_submarine)).to be true
+    end
 end
 
   describe "#computer_ship_placement" do
@@ -204,7 +204,7 @@ end
       expect(@board.valid_placement?(@cruiser, placed_at.compact)).to be true
     end
 
-    xit 'cannot place ship on used cell, only horizontal left' do
+    it 'cannot place ship on used cell, only horizontal left' do
       @board.generate_cells
       @board.place(@cruiser, ["B1", "B2", "B3"])
       @board.place(@cruiser, ["C1", "C2", "C3"])

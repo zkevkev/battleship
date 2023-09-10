@@ -120,19 +120,24 @@ class Board
     final_placement = nums[random_index].map { |num| letter + num }
   end
 
+  # If vertically 
+      # each_cons to get sequential letters
+      # Randomly pick one of the sequences (1-2 OR 1-3)
+      # generate random number 1 through 4, and tack it on to get coordinates
 
   def computer_ship_placement(ship) # I decided to use a parameter instead
     # Randomizing
     # Place Horizontal OR Vertical
     if Random.new.rand(0..1) == 0
-      # do horizonal things
+      random_coordinates = random_horizontal_placement(ship)
     else
-      # do vertical things
+      # random_coordinates = random_vertical_placement(ship)
     end
-    # If veritcally 
-      # each_cons to get sequential letters
-      # Randomly pick one of the sequences (1-2 OR 1-3)
-      # generate random number 1 through 4, and tack it on to get coordinates
-    # @board.cells[@board.cells.keys.sample]
+    # I think this is recursion
+    if collision_helper?(ship, random_coordinates) 
+      place(ship, random_coordinates)
+    else
+      computer_ship_placement(ship)
+    end
   end
 end
