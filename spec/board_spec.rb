@@ -158,4 +158,15 @@ RSpec.describe Board do
       expect(@board.fire_upon("A1")).to eq("That coordinate has already been fired upon")
     end
   end
+
+  describe "#computer_ship_placement" do
+    it "can place ships randomly" do
+      @board.computer_ship_placement
+      made_cells = @board.cells.values.ship
+      used_cells = made_cells.select do |cell|
+        cell != nil
+      end
+      expect(used_cells.count).to eq(5)
+    end
+  end
 end
