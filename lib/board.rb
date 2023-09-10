@@ -78,4 +78,13 @@ class Board
       end
     end
   end
+
+  def render(reveal = nil)
+    placeholder = @cells.map { |coordinate, cell| cell.render }.join(" ")
+    "  1 2 3 4 \n" +
+    "A #{placeholder[0..6]} \n" +
+    "B#{placeholder[7..14]} \n" +
+    "C#{placeholder[15..22]} \n" +
+    "D#{placeholder[23..30]} \n"
+  end
 end
