@@ -26,7 +26,7 @@ class Board
     valid_coordinates.include?(coordinate)
   end
 
-  def horizontal_helper(ship, placement)
+  def horizontal_helper?(ship, placement)
     numbers = placement.map { |number| number[1..-1].ord }
     current_index = 0
     until current_index == (placement.length - 1)
@@ -40,7 +40,7 @@ class Board
     true
   end
 
-  def vertical_helper(ship, placement)
+  def vertical_helper?(ship, placement)
     letters = placement.map { |letter| letter[0].ord }
     current_index = 0
     until current_index == (placement.length - 1)
@@ -54,10 +54,12 @@ class Board
     true
   end
   
+
+
   def valid_placement?(ship, placement)
-    if horizontal_helper(ship, placement) == true && vertical_helper(ship, placement) == true
+    if horizontal_helper?(ship, placement) == true && vertical_helper?(ship, placement) == true
       false
-    elsif ship.length == placement.length && horizontal_helper(ship, placement) == true || vertical_helper(ship, placement) == true
+    elsif ship.length == placement.length && horizontal_helper?(ship, placement) == true || vertical_helper?(ship, placement) == true
       true
     else
       false
