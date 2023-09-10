@@ -31,7 +31,7 @@ class Board
     current_index = 0
     until current_index == (placement.length - 1)
       diff = numbers[current_index] - numbers[current_index + 1]
-      if diff == 1 || diff == -1
+      if diff == -1
         current_index += 1
       else
         return false
@@ -40,6 +40,20 @@ class Board
     true
   end
 
+  def vertical_helper(ship, placement)
+    letters = placement.map { |letter| letter[0].ord }
+    current_index = 0
+    until current_index == (placement.length - 1)
+      diff = letters[current_index] - letters[current_index + 1]
+      if diff == -1
+        current_index += 1
+      else
+        return false
+      end
+    end
+    true
+  end
+  
   def valid_placement?(ship, placement)
     ship.length == placement.length
   end
