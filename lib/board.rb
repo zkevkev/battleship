@@ -27,7 +27,7 @@ class Board
   end
 
   def horizontal_helper?(ship, placement)
-    numbers = placement.map { |number| number[1..-1].ord }
+    numbers = placement.map { |number| number[1].ord }
     current_index = 0
     until current_index == (placement.length - 1)
       diff = numbers[current_index] - numbers[current_index + 1]
@@ -107,8 +107,21 @@ class Board
     end
   end
 
-  def computer_ship_placement(ship) # I decided to use a parameter instead
+  def random_horizontal_placement(ship)
+    # Sequential number arrays depending on length of ship
+    nums = []
+    ('1'..'4').each_cons(ship.length) { |num| nums << num }
+    # Randomly pick one of the sequences, by index (0-1 OR 0-2)
+      #I did a bunch of pry spot tests and it does work (any better way of testing?)
+    random_index = Random.new.rand(0..(nums.length - 1))
+    # generate random letter A through D, and tack it on to get coordinates
+    letter = Random.new.rand(65..68).chr
+    final_placement = nums[random_index].map { |num| letter + num }
+    place(ship, final_placement)
+  end
 
+
+  def computer_ship_placement(ship) # I decided to use a parameter instead
     # Randomizing
     # Place Horizontal OR Vertical
     if Random.new.rand(0..1) == 0
@@ -116,16 +129,10 @@ class Board
     else
       # do vertical things
     end
-    # If place ship horizontally
-      # each_cons to get sequential numbers
-      # Randomly pick one of the sequences (1-2 OR 1-3)
-      # generate random letter A through D, and tack it on to get coordinates
-
     # If veritcally 
       # each_cons to get sequential letters
       # Randomly pick one of the sequences (1-2 OR 1-3)
       # generate random number 1 through 4, and tack it on to get coordinates
-    @board.cells[@board.cells.keys.sample]
-    if 
+    # @board.cells[@board.cells.keys.sample]
   end
 end
