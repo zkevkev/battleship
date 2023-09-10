@@ -92,5 +92,70 @@ RSpec.describe Board do
       expect(cell_1.ship).to eq(@cruiser)
       expect(cell_1.ship).to eq(cell_2.ship)
     end
+
+    it "will not place a ship if any cell is occupied" do
+      cell_1 = @board.cells["A1"] 
+      cell_2 = @board.cells["A2"]
+      cell_3 = @board.cells["A3"]
+      @board.place(@submarine, ["A3", "A4"])
+      @board.place(@cruiser, ["A1", "A2", "A3"])
+
+      expect(cell_3.ship).to eq(@submarine)
+      expect(cell_1.ship).to be nil
+    end
+  end
+
+  describe "#render" do
+    it "prints out a board with relevant information" do
+      @board.place(@cruiser, ["A1", "A2", "A3"])
+
+      expect(@board.render).to eq("  1 2 3 4 \nA . . . . \nB . . . . \nC . . . . \nD . . . . \n")
+    end
+
+    it "prints out a board with all ship information" do
+      @board.place(@cruiser, ["A1", "A2", "A3"])
+
+      expect(@board.render(true)).to eq("  1 2 3 4 \nA S S S . \nB . . . . \nC . . . . \nD . . . . \n")
+    end
+
+    it "renders board information after actions taken" do
+      @board.place(@cruiser, ["A1", "A2", "A3"])
+      @board.place(@submarine, ["C1", "D1"])
+      @board.fire_upon("A1")
+      @board.fire_upon("B4")
+      @board.fire_upon("C1")
+      @board.fire_upon("D1")
+     
+      expect(@board.render).to eq("  1 2 3 4 \nA H . . . \nB . . . M \nC X . . . \nD X . . . \n")
+    end
+
+    it "renders board information after actions taken with true ship positions" do
+      @board.place(@cruiser, ["A1", "A2", "A3"])
+      @board.place(@submarine, ["C1", "D1"])
+      @board.fire_upon("A1")
+      @board.fire_upon("B4")
+      @board.fire_upon("C1")
+      @board.fire_upon("D1")
+     
+      expect(@board.render(true)).to eq("  1 2 3 4 \nA H S S . \nB . . . M \nC X . . . \nD X . . . \n")
+    end
+  end
+
+  describe "#fire_upon" do
+    it "fires on the board using input coordinate" do
+      @board.place(@cruiser, ["A1", "A2", "A3"])
+      @board.place(@submarine, ["C1", "D1"])
+      @board.fire_upon("A1")
+
+      expect(@board.cells["A1"].fired_upon?).to be true
+    end
+
+    it "will not not allow firing on invalid coordinates" do
+      expect(@board.fire_upon("X1")).to eq("Please enter a valid coordinate")
+
+      @board.fire_upon("A1")
+
+      expect(@board.fire_upon("A1")).to eq("That coordinate has already been fired upon")
+    end
   end
 end

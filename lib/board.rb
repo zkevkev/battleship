@@ -55,7 +55,6 @@ class Board
   end
   
   def collision_helper?(ship, placement)
-    #dfughdflgdflkivfiklbhdf
     placement.each do |place|
       return false if @cells[place].ship != nil
     end
@@ -77,6 +76,34 @@ class Board
       placement.each do |coordinate|
         @cells[coordinate].ship = ship
       end
+    end
+  end
+
+  def render(reveal = nil)
+    if reveal == nil
+      placeholder = @cells.map { |coordinate, cell| cell.render }.join(" ")
+      "  1 2 3 4 \n" +
+      "A #{placeholder[0..6]} \n" +
+      "B#{placeholder[7..14]} \n" +
+      "C#{placeholder[15..22]} \n" +
+      "D#{placeholder[23..30]} \n"
+    else
+      placeholder = @cells.map { |coordinate, cell| cell.render(true) }.join(" ")
+      "  1 2 3 4 \n" +
+      "A #{placeholder[0..6]} \n" +
+      "B#{placeholder[7..14]} \n" +
+      "C#{placeholder[15..22]} \n" +
+      "D#{placeholder[23..30]} \n"
+    end
+  end
+
+  def fire_upon(coordinate)
+    if !valid_coordinate?(coordinate)
+      "Please enter a valid coordinate"
+    elsif valid_coordinate?(coordinate) && @cells[coordinate].fired_upon?
+      "That coordinate has already been fired upon"
+    else
+      @cells[coordinate].fire_upon
     end
   end
 end
