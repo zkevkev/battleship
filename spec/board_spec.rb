@@ -92,5 +92,16 @@ RSpec.describe Board do
       expect(cell_1.ship).to eq(@cruiser)
       expect(cell_1.ship).to eq(cell_2.ship)
     end
+
+    it "will not place a ship if any cell is occupied" do
+      cell_1 = @board.cells["A1"] 
+      cell_2 = @board.cells["A2"]
+      cell_3 = @board.cells["A3"]
+      @board.place(@submarine, ["A3", "A4"])
+      @board.place(@cruiser, ["A1", "A2", "A3"])
+
+      expect(cell_3.ship).to eq(@submarine)
+      expect(cell_1.ship).to be nil
+    end
   end
 end
