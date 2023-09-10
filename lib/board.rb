@@ -122,7 +122,7 @@ class Board
 
   # If vertically 
       # each_cons to get sequential letters
-      # Randomly pick one of the sequences (1-2 OR 1-3)
+      # Randomly pick one of the sequences (0-1 OR 0-2)
       # generate random number 1 through 4, and tack it on to get coordinates
 
   def computer_ship_placement(ship) # I decided to use a parameter instead

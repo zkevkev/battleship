@@ -181,11 +181,10 @@ RSpec.describe Board do
       expect(random_submarine.length).to eq(2)
       expect(@board.vertical_helper?(@submarine, random_submarine)).to be true
     end
-end
+  end
 
   describe "#computer_ship_placement" do
-  # PLEASE REVIEW THIS, before I had helper methods place a ship
-  # Now they only generate a set of coordinates for placement
+  # PLEASE REVIEW THIS, dated -- but can still be useful...maybe
     xit 'places ship in a position' do
       @board.generate_cells
       @board.computer_ship_placement(@cruiser)
@@ -224,8 +223,8 @@ end
       expect(placed_at.compact).to eq(["A1", "A2", "A3"])
     end
 
-      # Someone else can write the test for 
-      # it 'cannot place ship on used cell, only horizontal left' do
-      # end
+    # Someone else can write the test for 
+    # 'cannot place ship on used cell, only vertical left'
+    
   end
 end
