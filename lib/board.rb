@@ -116,8 +116,8 @@ class Board
     random_index = Random.new.rand(0..(nums.length - 1))
     # generate random letter A through D, and tack it on to get coordinates
     letter = Random.new.rand(65..68).chr
+    # Array of random coordinates
     final_placement = nums[random_index].map { |num| letter + num }
-    place(ship, final_placement)
   end
 
 
