@@ -161,10 +161,11 @@ RSpec.describe Board do
 
   describe "#computer_ship_placement" do
     xit "can place ships randomly" do
+      @board.generate_cells
       @board.computer_ship_placement(@cruiser)
-      made_cells = @board.cells.values.ship
+      made_cells = @board.cells.values
       used_cells = made_cells.select do |cell|
-        cell != nil
+        cell.ship != nil
       end
       expect(used_cells.count).to eq(3)
     end
@@ -187,6 +188,24 @@ RSpec.describe Board do
       # I couldn't figure out how to not have nils, so removed w/compact
       # Only assertion I could think of for now was if it was horizontal
       expect(@board.horizontal_helper?(@cruiser, placed_at.compact)).to be true
+    end
+
+    it 'cannot place ship on used cell' do
+      @board.generate_cells
+      @board.place(@cruiser, ["B1", "B2", "B3"])
+      @board.place(@cruiser, ["C1", "C2", "C3"])
+      @board.place(@cruiser, ["D1", "D2", "D3"])
+      @board.place(@submarine, ["A4", "B4"])
+      @board.place(@submarine, ["C4", "D4"])
+
+      @board.random_horizontal_placement(@cruiser)
+
+      # Makes an array of nil or coordinates where something was placed
+      placed_at = @board.cells.map do |coordinate, cell|
+        coordinate if cell.ship != nil
+      end
+      # Only has 3 valid spaces (horizontally)
+      expect(placed_at.compact).to eq(["A1", "A2", "A3"])
     end
   end
 end
