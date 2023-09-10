@@ -107,9 +107,7 @@ class Board
     end
   end
 
-  def computer_ship_placement
-    cruiser = Ship.new("Cruiser", 3)
-    submarine = Ship.new("Submarine", 2)
+  def computer_ship_placement(ship) # I decided to use a parameter instead
 
     # Randomizing
     # Place Horizontal OR Vertical

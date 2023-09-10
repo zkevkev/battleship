@@ -161,12 +161,12 @@ RSpec.describe Board do
 
   describe "#computer_ship_placement" do
     it "can place ships randomly" do
-      @board.computer_ship_placement
+      @board.computer_ship_placement(@cruiser)
       made_cells = @board.cells.values.ship
       used_cells = made_cells.select do |cell|
         cell != nil
       end
-      expect(used_cells.count).to eq(5)
+      expect(used_cells.count).to eq(3)
     end
   end
 end
