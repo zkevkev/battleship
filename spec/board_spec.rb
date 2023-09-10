@@ -38,21 +38,30 @@ RSpec.describe Board do
     end
   end
 
-  describe "#horizontal_helper" do
+  describe "#horizontal_helper?" do
     it "determines valid placement of ship by horizontally consecutive coordinates" do
-      expect(@board.horizontal_helper(@cruiser, ["A1", "A2", "A4"])).to be false
-      expect(@board.horizontal_helper(@submarine, ["A1", "C1"])).to be false
-      expect(@board.horizontal_helper(@cruiser, ["A3", "A2", "A1"])).to be false
-      expect(@board.horizontal_helper(@cruiser, ["A1", "A2", "A3"])).to be true
+      expect(@board.horizontal_helper?(@cruiser, ["A1", "A2", "A4"])).to be false
+      expect(@board.horizontal_helper?(@submarine, ["A1", "C1"])).to be false
+      expect(@board.horizontal_helper?(@cruiser, ["A3", "A2", "A1"])).to be false
+      expect(@board.horizontal_helper?(@cruiser, ["A1", "A2", "A3"])).to be true
     end
   end
 
-  describe "#vertical_helper" do
+  describe "#vertical_helper??" do
     it "determines valid placement of ship by vertically consecutive coordinates" do
-      expect(@board.vertical_helper(@cruiser, ["A1", "C2", "B3"])).to be false
-      expect(@board.vertical_helper(@submarine, ["A1", "C1"])).to be false
-      expect(@board.vertical_helper(@cruiser, ["A1", "B2", "C3"])).to be true
-      expect(@board.vertical_helper(@cruiser, ["A1", "B1", "C1"])).to be true
+      expect(@board.vertical_helper?(@cruiser, ["A1", "C2", "B3"])).to be false
+      expect(@board.vertical_helper?(@submarine, ["A1", "C1"])).to be false
+      expect(@board.vertical_helper?(@cruiser, ["A1", "B2", "C3"])).to be true
+      expect(@board.vertical_helper?(@cruiser, ["A1", "B1", "C1"])).to be true
+    end
+  end
+
+  describe "#collision_helper?" do
+    it "determines if ship placement is overlapping" do
+      expect(@board.collision_helper?(@cruiser, ["A1", "A2", "A3"])).to be true
+      @board.place(@cruiser, ["A1", "A2", "A3"])
+      expect(@board.collision_helper?(@submarine, ["A1", "B1"])).to be false
+      expect(@board.collision_helper?(@submarine, ["B1", "B2"])).to be true
     end
   end
 
