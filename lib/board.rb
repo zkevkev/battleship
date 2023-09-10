@@ -72,7 +72,7 @@ class Board
   end
 
   def place(ship, placement)
-    if valid_placement?(ship, placement)
+    if valid_placement?(ship, placement) && collision_helper?(ship, placement)
       placement.each do |coordinate|
         @cells[coordinate].ship = ship
       end
