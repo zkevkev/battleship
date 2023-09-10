@@ -1,11 +1,11 @@
 class Board
-  attr_reader :coordinates
+  attr_reader :cells
 
   def initialize
-    @coordinates = {}
+    @cells = {}
   end
 
-  def cells
+  def generate_cells
     pairs = []
     range_alphas = ["A", "B", "C", "D"]
     range_nums = ["1", "2", "3", "4"]
@@ -16,13 +16,13 @@ class Board
       end
     end
     pairs.sort.each do |pair|
-      @coordinates[pair] = Cell.new(pair)
+      @cells[pair] = Cell.new(pair)
     end
-    @coordinates
+    @cells
   end
 
   def valid_coordinate?(coordinate)
-    valid_coordinates = coordinates.keys
+    valid_coordinates = @cells.keys
     valid_coordinates.include?(coordinate)
   end
 

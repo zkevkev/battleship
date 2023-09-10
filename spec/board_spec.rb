@@ -3,7 +3,7 @@ require "./spec/spec_helper"
 RSpec.describe Board do
   before(:each) do
     @board = Board.new
-    @board.cells
+    @board.generate_cells
     @cruiser = Ship.new("Cruiser", 3)
     @submarine = Ship.new("Submarine", 2)
   end
@@ -18,11 +18,11 @@ RSpec.describe Board do
     # end
   end
 
-  describe "#cells" do
+  describe "#generate_cells" do
     it "creates a hash of cells" do
-      expect(@board.coordinates).to be_a(Hash)
-      expect(@board.coordinates.length).to eq(16)
-      @board.coordinates.each do |coordinate, cell_object|
+      expect(@board.cells).to be_a(Hash)
+      expect(@board.cells.length).to eq(16)
+      @board.cells.each do |cell, cell_object|
         expect(cell_object).to be_an_instance_of(Cell)
       end
     end
