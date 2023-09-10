@@ -169,4 +169,16 @@ RSpec.describe Board do
       expect(used_cells.count).to eq(3)
     end
   end
+
+  describe "#random_horizontal_placement" do
+    it 'places ship in a horizontal position' do
+      @board.random_horizontal_placement(@cruiser)
+
+      placed_at = @board.cells.find_all do |coordinate, cell|
+        cell.ship != nil
+      end
+
+      expect(@board.vertical_helper?(@cruiser, placed_at)).to be true
+    end
+  end
 end
