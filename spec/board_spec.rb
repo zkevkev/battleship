@@ -118,12 +118,26 @@ RSpec.describe Board do
       expect(@board.render(true)).to eq("  1 2 3 4 \nA S S S . \nB . . . . \nC . . . . \nD . . . . \n")
     end
 
-    xit "renders board information after actions taken" do
+    it "renders board information after actions taken" do
       @board.place(@cruiser, ["A1", "A2", "A3"])
       @board.place(@submarine, ["C1", "D1"])
-      # needs firing method
+      @board.fire_upon("A1")
+      @board.fire_upon("B4")
+      @board.fire_upon("C1")
+      @board.fire_upon("D1")
      
       expect(@board.render).to eq("  1 2 3 4 \nA H . . . \nB . . . M \nC X . . . \nD X . . . \n")
+    end
+
+    it "renders board information after actions taken with true ship positions" do
+      @board.place(@cruiser, ["A1", "A2", "A3"])
+      @board.place(@submarine, ["C1", "D1"])
+      @board.fire_upon("A1")
+      @board.fire_upon("B4")
+      @board.fire_upon("C1")
+      @board.fire_upon("D1")
+     
+      expect(@board.render(true)).to eq("  1 2 3 4 \nA H S S . \nB . . . M \nC X . . . \nD X . . . \n")
     end
   end
 
