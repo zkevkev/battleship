@@ -104,4 +104,18 @@ RSpec.describe Board do
       expect(cell_1.ship).to be nil
     end
   end
+
+  describe "#render" do
+    it "prints out a board with relevant information" do
+      @board.place(@cruiser, ["A1", "A2", "A3"])
+
+      expect(@board.render).to eq("  1 2 3 4 \nA . . . . \nB . . . . \nC . . . . \nD . . . . \n")
+    end
+
+    it "prints out a board with all ship information" do
+      @board.place(@cruiser, ["A1", "A2", "A3"])
+
+      expect(@board.render).to eq("  1 2 3 4 \nA S S S . \nB . . . . \nC . . . . \nD . . . . \n")
+    end
+  end
 end
