@@ -55,14 +55,9 @@ class Board
   end
   
   def collision_helper?(ship, placement)
-    @cells.each do |coordinate, cell|
-      placement.each do |place|
-        if place == coordinate && cell.ship == nil
-          return true
-        end
-      end
-    end
-    false
+    # I figured nothing out :(
+      # More nonsense things
+      blah = 10
   end
 
   def valid_placement?(ship, placement)
