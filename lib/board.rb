@@ -66,9 +66,12 @@ class Board
 
   def place(ship, placement)
     if valid_placement?(ship, placement)
-      @cells.each do |coordinate, cell|
-        cell.place_ship(ship)
+      placement.each do |coordinate|
+        @cells[coordinate].ship = ship
       end
+      
+      # @cells.each do |coordinate, cell|
+      #   cell.place_ship(ship)
     end
   end
 end
