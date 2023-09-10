@@ -12,6 +12,10 @@ class Battleship
       new_board = Board.new
       new_board.generate_cells
       puts new_board.render
+      # Computer places pieces
+      # method in Board class
+      test = new_board.cells[new_board.cells.keys.sample]
+      # binding.pry
     end
   end
 end
