@@ -36,41 +36,52 @@ RSpec.describe Board do
       expect(@board.valid_coordinate?('E1')).to be false
       expect(@board.valid_coordinate?('A22')).to be false
     end
+  end
 
-    describe "#horizontal_helper" do
-      it "determines valid placement of ship by horizontally consecutive coordinates" do
-        expect(@board.horizontal_helper(@cruiser, ["A1", "A2", "A4"])).to be false
-        expect(@board.horizontal_helper(@submarine, ["A1", "C1"])).to be false
-        expect(@board.horizontal_helper(@cruiser, ["A3", "A2", "A1"])).to be false
-        expect(@board.horizontal_helper(@cruiser, ["A1", "A2", "A3"])).to be true
-      end
+  describe "#horizontal_helper" do
+    it "determines valid placement of ship by horizontally consecutive coordinates" do
+      expect(@board.horizontal_helper(@cruiser, ["A1", "A2", "A4"])).to be false
+      expect(@board.horizontal_helper(@submarine, ["A1", "C1"])).to be false
+      expect(@board.horizontal_helper(@cruiser, ["A3", "A2", "A1"])).to be false
+      expect(@board.horizontal_helper(@cruiser, ["A1", "A2", "A3"])).to be true
+    end
+  end
+
+  describe "#vertical_helper" do
+    it "determines valid placement of ship by vertically consecutive coordinates" do
+      expect(@board.vertical_helper(@cruiser, ["A1", "C2", "B3"])).to be false
+      expect(@board.vertical_helper(@submarine, ["A1", "C1"])).to be false
+      expect(@board.vertical_helper(@cruiser, ["A1", "B2", "C3"])).to be true
+      expect(@board.vertical_helper(@cruiser, ["A1", "B1", "C1"])).to be true
+    end
+  end
+
+  describe "#valid_placement?" do
+    it "determines valid placement of ship by length" do
+      expect(@board.valid_placement?(@cruiser, ["A1", "A2"])).to be false
+      expect(@board.valid_placement?(@submarine, ["A2", "A3", "A4"])).to be false
+      expect(@board.valid_placement?(@cruiser, ["A1", "A2", "A3"])).to be true
     end
 
-    describe "#vertical_helper" do
-      it "determines valid placement of ship by vertically consecutive coordinates" do
-        expect(@board.vertical_helper(@cruiser, ["A1", "C2", "B3"])).to be false
-        expect(@board.vertical_helper(@submarine, ["A1", "C1"])).to be false
-        expect(@board.vertical_helper(@cruiser, ["A1", "B2", "C3"])).to be true
-        expect(@board.vertical_helper(@cruiser, ["A1", "B1", "C1"])).to be true
-      end
+    it "determines valid placement of ship by consecutive coordinates" do
+      expect(@board.valid_placement?(@cruiser, ["A1", "A2", "A4"])).to be false
+      expect(@board.valid_placement?(@submarine, ["A1", "C1"])).to be false
+      expect(@board.valid_placement?(@cruiser, ["A3", "A2", "A1"])).to be false
+      expect(@board.valid_placement?(@cruiser, ["A1", "A2", "A3"])).to be true
+      expect(@board.valid_placement?(@cruiser, ["A1", "B1", "C1"])).to be true
+      expect(@board.valid_placement?(@submarine, ["A1", "A2"])).to be true
+      expect(@board.valid_placement?(@cruiser, ["B1", "C1", "D1"])).to be true
     end
+  end
 
-    describe "#valid_placement?" do
-      it "determines valid placement of ship by length" do
-        expect(@board.valid_placement?(@cruiser, ["A1", "A2"])).to be false
-        expect(@board.valid_placement?(@submarine, ["A2", "A3", "A4"])).to be false
-        expect(@board.valid_placement?(@cruiser, ["A1", "A2", "A3"])).to be true
-      end
-
-      it "determines valid placement of ship by consecutive coordinates" do
-        expect(@board.valid_placement?(@cruiser, ["A1", "A2", "A4"])).to be false
-        expect(@board.valid_placement?(@submarine, ["A1", "C1"])).to be false
-        expect(@board.valid_placement?(@cruiser, ["A3", "A2", "A1"])).to be false
-        expect(@board.valid_placement?(@cruiser, ["A1", "A2", "A3"])).to be true
-        expect(@board.valid_placement?(@cruiser, ["A1", "B1", "C1"])).to be true
-        expect(@board.valid_placement?(@submarine, ["A1", "A2"])).to be true
-        expect(@board.valid_placement?(@cruiser, ["B1", "C1", "D1"])).to be true
-      end
+  describe "#place" do
+    it "places a ship if passed placement is valid" do
+      @board.place(@cruiser, ["A1", "A2", "A3"])
+      cell_1 = @board.cells["A1"] 
+      cell_2 = @board.cells["A2"]
+      cell_3 = @board.cells["A3"]
+      expect(cell_1.ship).to eq(@cruiser)
+      expect(cell_1.ship).to eq(cell_2.ship)
     end
   end
 end
