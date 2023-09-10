@@ -48,11 +48,11 @@ RSpec.describe Board do
 
     describe "#vertical_helper" do
       it "determines valid placement of ship by vertically consecutive coordinates" do
-        expect(@board.horizontal_helper(@cruiser, ["A1", "C2", "B3"])).to be false
-        expect(@board.horizontal_helper(@submarine, ["A1", "C1"])).to be false
-        # expect(@board.horizontal_helper(@cruiser, ["A3", "A2", "A1"])).to be false
-        expect(@board.horizontal_helper(@cruiser, ["A1", "B2", "C2"])).to be true
-        expect(@board.horizontal_helper(@cruiser, ["A1", "B1", "C1"])).to be true
+        expect(@board.vertical_helper(@cruiser, ["A1", "C2", "B3"])).to be false
+        expect(@board.vertical_helper(@submarine, ["A1", "C1"])).to be false
+        # expect(@board.vertical_helper(@cruiser, ["A3", "A2", "A1"])).to be false
+        expect(@board.vertical_helper(@cruiser, ["A1", "B2", "C2"])).to be false
+        expect(@board.vertical_helper(@cruiser, ["A1", "B1", "C1"])).to be true
       end
     end
 
