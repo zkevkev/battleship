@@ -55,10 +55,11 @@ class Board
   end
   
   def collision_helper?(ship, placement)
+    WHAT ARE WE DOING
       placement.each do |place|
         return false if @cells[place].ship != nil
       end
-    true
+    WHAT ARE WE DOING
   end
 
   def valid_placement?(ship, placement)
