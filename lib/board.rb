@@ -53,14 +53,12 @@ class Board
     end
     true
   end
-  
+
   def collision_helper?(ship, placement)
     placement.each do |place|
       return false if @cells[place].ship != nil
-      binding.pry
     end
     true
-    binding.pry
   end
 
   def valid_placement?(ship, placement)
@@ -112,9 +110,9 @@ class Board
   def random_horizontal_placement(ship)
     # Sequential number arrays depending on length of ship
     nums = []
-    ('1'..'4').each_cons(ship.length) { |num| nums << num }
+    ("1".."4").each_cons(ship.length) { |num| nums << num }
     # Randomly pick one of the sequences, by index (0-1 OR 0-2)
-      #I did a bunch of pry spot tests and it does work (any better way of testing?)
+    # I did a bunch of pry spot tests and it does work (any better way of testing?)
     random_index = Random.new.rand(0..(nums.length - 1))
     # generate random letter A through D, and tack it on to get coordinates
     letter = Random.new.rand(65..68).chr
@@ -125,7 +123,7 @@ class Board
   def random_vertical_placement(ship)
     # each_cons to get sequential letters
     letters = []
-    ('A'..'D').each_cons(ship.length) { |letter| letters << letter }
+    ("A".."D").each_cons(ship.length) { |letter| letters << letter }
     # Randomly pick one of the sequences (0-1 OR 0-2)
     random_index = Random.new.rand(0..(letters.length - 1))
     # generate random number 1 through 4, and tack it on to get coordinates

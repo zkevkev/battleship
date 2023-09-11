@@ -12,10 +12,6 @@ RSpec.describe Board do
     it "exists" do
       expect(@board).to be_a(Board)
     end
-    
-    # it "has empty coordinates hash when created" do
-    #   expect(@board.coordinates).to eq(Hash.new)
-    # end
   end
 
   describe "#generate_cells" do
@@ -57,7 +53,7 @@ RSpec.describe Board do
   end
 
   describe "#collision_helper?" do
-    xit "determines if ship placement is overlapping" do
+    it "determines if ship placement is overlapping" do
       expect(@board.collision_helper?(@cruiser, ["A1", "A2", "A3"])).to be true
       @board.place(@cruiser, ["A1", "A2", "A3"])
       expect(@board.collision_helper?(@submarine, ["A1", "B1"])).to be false
@@ -65,14 +61,14 @@ RSpec.describe Board do
     end
   end
 
-  describe "#valid_placement?" do
+  describe "#valid_placement?" do  
     it "determines valid placement of ship by length" do
       expect(@board.valid_placement?(@cruiser, ["A1", "A2"])).to be false
       expect(@board.valid_placement?(@submarine, ["A2", "A3", "A4"])).to be false
       expect(@board.valid_placement?(@cruiser, ["A1", "A2", "A3"])).to be true
     end
 
-    it "determines valid placement of ship by consecutive coordinates" do
+    it "determines valid placement of ship by consecutive coordinates and non-diagonal placement" do
       expect(@board.valid_placement?(@cruiser, ["A1", "A2", "A4"])).to be false
       expect(@board.valid_placement?(@submarine, ["A1", "C1"])).to be false
       expect(@board.valid_placement?(@cruiser, ["A3", "A2", "A1"])).to be false
@@ -80,6 +76,13 @@ RSpec.describe Board do
       expect(@board.valid_placement?(@cruiser, ["A1", "B1", "C1"])).to be true
       expect(@board.valid_placement?(@submarine, ["A1", "A2"])).to be true
       expect(@board.valid_placement?(@cruiser, ["B1", "C1", "D1"])).to be true
+    end
+
+    it "checks for overlapping ships" do
+      expect(@board.valid_placement?(@cruiser, ["A1", "A2", "A3"])).to be true
+      @board.place(@cruiser, ["A1", "A2", "A3"])
+      expect(@board.valid_placement?(@submarine, ["A1", "B1"])).to be false
+      expect(@board.valid_placement?(@submarine, ["B1", "B2"])).to be true
     end
   end
 
@@ -125,7 +128,7 @@ RSpec.describe Board do
       @board.fire_upon("B4")
       @board.fire_upon("C1")
       @board.fire_upon("D1")
-     
+
       expect(@board.render).to eq("  1 2 3 4 \nA H . . . \nB . . . M \nC X . . . \nD X . . . \n")
     end
 
@@ -136,7 +139,7 @@ RSpec.describe Board do
       @board.fire_upon("B4")
       @board.fire_upon("C1")
       @board.fire_upon("D1")
-     
+
       expect(@board.render(true)).to eq("  1 2 3 4 \nA H S S . \nB . . . M \nC X . . . \nD X . . . \n")
     end
   end
