@@ -62,17 +62,26 @@ class Board
   end
 
   def valid_placement?(ship, placement)
-    if horizontal_helper?(ship, placement) == true && vertical_helper?(ship, placement) == true
-      false
-    elsif ship.length == placement.length && horizontal_helper?(ship, placement) == true || vertical_helper?(ship, placement) == true
-      true
+    if (horizontal_helper?(ship, placement) || vertical_helper?(ship, placement)) && ship.length == placement.length && collision_helper?(ship, placement)
     else
       false
     end
+      #check length
+      #check hz or check vt
+      #check overlap
+      #place ship!
+
+    # if horizontal_helper?(ship, placement) == true && vertical_helper?(ship, placement) == true
+    #   false
+    # elsif ship.length == placement.length && horizontal_helper?(ship, placement) == true || vertical_helper?(ship, placement) == true
+    #   true
+    # else
+    #   false
+    # end
   end
 
   def place(ship, placement)
-    if valid_placement?(ship, placement) && collision_helper?(ship, placement)
+    if valid_placement?(ship, placement)
       placement.each do |coordinate|
         @cells[coordinate].ship = ship
       end
