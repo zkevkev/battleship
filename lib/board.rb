@@ -55,12 +55,13 @@ class Board
   end
   
   def collision_helper?(ship, placement)
+    binding.pry
     placement.each do |place|
       return false if @cells[place].ship != nil
-      binding.pry
+      # binding.pry
     end
     true
-    binding.pry
+    # binding.pry
   end
 
   def valid_placement?(ship, placement)
