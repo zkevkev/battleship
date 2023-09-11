@@ -10,6 +10,7 @@ class Game
     @user_cruiser = Ship.new("Cruiser", 3)
     @user_sub = Ship.new("Submarine", 2)
   end
+  
   def setup
     require 'pry'; binding.pry
     puts "Welcome to BATTLESHIP"

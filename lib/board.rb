@@ -2,10 +2,11 @@ class Board
   attr_reader :cells
 
   def initialize
-    @cells = {}
+    @cells = generate_cells
   end
 
   def generate_cells
+    @cells = {}
     pairs = []
     range_alphas = ["A", "B", "C", "D"]
     range_nums = ["1", "2", "3", "4"]
@@ -55,7 +56,6 @@ class Board
   end
 
   def collision_helper?(ship, placement)
-    binding.pry
     placement.each do |place|
       return false if @cells[place].ship != nil
     end
