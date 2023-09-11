@@ -1,7 +1,17 @@
 require "./spec/spec_helper"
 
 class Game
+  def initialize
+    @com_board = Board.new
+    @com_board.generate_cells
+    @com_cruiser = Ship.new("Cruiser", 3)
+    @com_sub = Ship.new("Submarine", 2)
+    @user_board = Board.new
+    @user_cruiser = Ship.new("Cruiser", 3)
+    @user_sub = Ship.new("Submarine", 2)
+  end
   def setup
+    require 'pry'; binding.pry
     puts "Welcome to BATTLESHIP"
     puts "Enter p to play. Enter q to quit."
     setup_response = gets.chomp
@@ -13,23 +23,16 @@ class Game
   end
       
   def com_setup
-    @com_board = Board.new
-    @com_board.generate_cells
     # Computer places pieces
-    @com_cruiser = Ship.new("Cruiser", 3)
-    @com_sub = Ship.new("Submarine", 2)
     @com_board.computer_ship_placement(com_cruiser)
     @com_board.computer_ship_placement(com_sub)
   end
 
   def user_setup
+    require 'pry'; binding.pry
     #user shtuff
-    @user_board = Board.new
-    @user_board.generate_cells
     puts new_board.render
     # user places pieces
-    @user_cruiser = Ship.new("Cruiser", 3)
-    @user_sub = Ship.new("Submarine", 2)
     # method in Board class
   end
 
