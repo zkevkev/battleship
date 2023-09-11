@@ -27,7 +27,7 @@ class Board
   end
 
   def horizontal_helper?(ship, placement)
-    numbers = placement.map { |number| number[1..-1].ord }
+    numbers = placement.map { |number| number[1].ord }
     current_index = 0
     until current_index == (placement.length - 1)
       diff = numbers[current_index] - numbers[current_index + 1]
@@ -57,8 +57,10 @@ class Board
   def collision_helper?(ship, placement)
     placement.each do |place|
       return false if @cells[place].ship != nil
+      binding.pry
     end
     true
+    binding.pry
   end
 
   def valid_placement?(ship, placement)
@@ -107,27 +109,44 @@ class Board
     end
   end
 
-  def computer_ship_placement
-    cruiser = Ship.new("Cruiser", 3)
-    submarine = Ship.new("Submarine", 2)
+  def random_horizontal_placement(ship)
+    # Sequential number arrays depending on length of ship
+    nums = []
+    ('1'..'4').each_cons(ship.length) { |num| nums << num }
+    # Randomly pick one of the sequences, by index (0-1 OR 0-2)
+      #I did a bunch of pry spot tests and it does work (any better way of testing?)
+    random_index = Random.new.rand(0..(nums.length - 1))
+    # generate random letter A through D, and tack it on to get coordinates
+    letter = Random.new.rand(65..68).chr
+    # Array of random coordinates
+    final_placement = nums[random_index].map { |num| letter + num }
+  end
 
+  def random_vertical_placement(ship)
+    # each_cons to get sequential letters
+    letters = []
+    ('A'..'D').each_cons(ship.length) { |letter| letters << letter }
+    # Randomly pick one of the sequences (0-1 OR 0-2)
+    random_index = Random.new.rand(0..(letters.length - 1))
+    # generate random number 1 through 4, and tack it on to get coordinates
+    number = Random.new.rand(1..4).to_s
+    # Array of random coordinates
+    final_placement = letters[random_index].map { |letter| letter + number}
+  end
+
+  def computer_ship_placement(ship) # I decided to use a parameter instead
     # Randomizing
     # Place Horizontal OR Vertical
     if Random.new.rand(0..1) == 0
-      # do horizonal things
+      random_coordinates = random_horizontal_placement(ship)
     else
-      # do vertical things
+      # random_coordinates = random_vertical_placement(ship)
     end
-    # If place ship horizontally
-      # each_cons to get sequential numbers
-      # Randomly pick one of the sequences (1-2 OR 1-3)
-      # generate random letter A through D, and tack it on to get coordinates
-
-    # If veritcally 
-      # each_cons to get sequential letters
-      # Randomly pick one of the sequences (1-2 OR 1-3)
-      # generate random number 1 through 4, and tack it on to get coordinates
-    @board.cells[@board.cells.keys.sample]
-    if 
+    # I think this is recursion
+    if collision_helper?(ship, random_coordinates) 
+      place(ship, random_coordinates)
+    else
+      computer_ship_placement(ship)
+    end
   end
 end
