@@ -12,10 +12,6 @@ RSpec.describe Board do
     it "exists" do
       expect(@board).to be_a(Board)
     end
-    
-    # it "has empty coordinates hash when created" do
-    #   expect(@board.coordinates).to eq(Hash.new)
-    # end
   end
 
   describe "#generate_cells" do
@@ -30,11 +26,11 @@ RSpec.describe Board do
 
   describe "#valid_coordinate?" do
     it "returns boolean result of coordinate test" do
-      expect(@board.valid_coordinate?('A1')).to be true
-      expect(@board.valid_coordinate?('D4')).to be true
-      expect(@board.valid_coordinate?('A5')).to be false
-      expect(@board.valid_coordinate?('E1')).to be false
-      expect(@board.valid_coordinate?('A22')).to be false
+      expect(@board.valid_coordinate?("A1")).to be true
+      expect(@board.valid_coordinate?("D4")).to be true
+      expect(@board.valid_coordinate?("A5")).to be false
+      expect(@board.valid_coordinate?("E1")).to be false
+      expect(@board.valid_coordinate?("A22")).to be false
     end
   end
 
@@ -57,7 +53,7 @@ RSpec.describe Board do
   end
 
   describe "#collision_helper?" do
-    xit "determines if ship placement is overlapping" do
+    it "determines if ship placement is overlapping" do
       expect(@board.collision_helper?(@cruiser, ["A1", "A2", "A3"])).to be true
       @board.place(@cruiser, ["A1", "A2", "A3"])
       expect(@board.collision_helper?(@submarine, ["A1", "B1"])).to be false
@@ -65,14 +61,14 @@ RSpec.describe Board do
     end
   end
 
-  describe "#valid_placement?" do
+  describe "#valid_placement?" do  
     it "determines valid placement of ship by length" do
       expect(@board.valid_placement?(@cruiser, ["A1", "A2"])).to be false
       expect(@board.valid_placement?(@submarine, ["A2", "A3", "A4"])).to be false
       expect(@board.valid_placement?(@cruiser, ["A1", "A2", "A3"])).to be true
     end
 
-    it "determines valid placement of ship by consecutive coordinates" do
+    it "determines valid placement of ship by consecutive coordinates and non-diagonal placement" do
       expect(@board.valid_placement?(@cruiser, ["A1", "A2", "A4"])).to be false
       expect(@board.valid_placement?(@submarine, ["A1", "C1"])).to be false
       expect(@board.valid_placement?(@cruiser, ["A3", "A2", "A1"])).to be false
@@ -80,6 +76,13 @@ RSpec.describe Board do
       expect(@board.valid_placement?(@cruiser, ["A1", "B1", "C1"])).to be true
       expect(@board.valid_placement?(@submarine, ["A1", "A2"])).to be true
       expect(@board.valid_placement?(@cruiser, ["B1", "C1", "D1"])).to be true
+    end
+
+    it "checks for overlapping ships" do
+      expect(@board.valid_placement?(@cruiser, ["A1", "A2", "A3"])).to be true
+      @board.place(@cruiser, ["A1", "A2", "A3"])
+      expect(@board.valid_placement?(@submarine, ["A1", "B1"])).to be false
+      expect(@board.valid_placement?(@submarine, ["B1", "B2"])).to be true
     end
   end
 
@@ -125,7 +128,7 @@ RSpec.describe Board do
       @board.fire_upon("B4")
       @board.fire_upon("C1")
       @board.fire_upon("D1")
-     
+
       expect(@board.render).to eq("  1 2 3 4 \nA H . . . \nB . . . M \nC X . . . \nD X . . . \n")
     end
 
@@ -136,7 +139,7 @@ RSpec.describe Board do
       @board.fire_upon("B4")
       @board.fire_upon("C1")
       @board.fire_upon("D1")
-     
+
       expect(@board.render(true)).to eq("  1 2 3 4 \nA H S S . \nB . . . M \nC X . . . \nD X . . . \n")
     end
   end
@@ -184,26 +187,24 @@ RSpec.describe Board do
   end
 
   describe "#computer_ship_placement" do
-  # PLEASE REVIEW THIS, dated -- but can still be useful...maybe
-    # xit 'places ship in a position' do
-    #   @board.generate_cells
-    #   @board.computer_ship_placement(@cruiser)
-    #   # Check for number cells used up
-    #   made_cells = @board.cells.values
-    #   used_cells = made_cells.select do |cell|
-    #     cell.ship != nil
-    #   end
-    #   expect(used_cells.count).to eq(3)
-    #   # Makes an array of nil or coordinates where something was placed
-    #   placed_at = @board.cells.map do |coordinate, cell|
-    #     coordinate if cell.ship != nil
-    #   end
-    #   # I couldn't figure out how to not have nils, so removed w/compact
-    #   # Only assertion I could think of for now
-    #   expect(@board.valid_placement?(@cruiser, placed_at.compact)).to be true
-    # end
+    it "places ship in a position" do
+      @board.computer_ship_placement(@cruiser)
+      # Check for number cells used up
+      used_cells =  @board.cells.values.select do |cell|
+        cell.ship != nil
+      end
+      expect(used_cells.count).to eq(3)
+      # Makes an array of nil or coordinates where something was placed
+      placed_at = @board.cells.map do |coordinate, cell|
+        coordinate if cell.ship != nil
+      end
+      # I couldn't figure out how to not have nils, so removed w/compact
+      # Only assertion I could think of for now
+      expect(placed_at.compact).to be_a Array
+      expect(@board.collision_helper?(@cruiser, placed_at.compact)).to be false
+    end
 
-    it 'cannot place ship on used cell, only horizontal left' do
+    it "cannot place ship on used cell, only horizontal left" do
       @board.place(@cruiser, ["B1", "B2", "B3"])
       @board.place(@cruiser, ["C1", "C2", "C3"])
       @board.place(@cruiser, ["D1", "D2", "D3"])
@@ -219,9 +220,22 @@ RSpec.describe Board do
       # Only has 3 valid spaces (horizontally)
       expect(placed_at.compact).to eq(["A1", "A2", "A3"])
     end
-
-    # Someone else can write the test for 
-    # 'cannot place ship on used cell, only vertical left'
     
+    it "when only vertical space is left, does not create a conflict" do
+      @board.place(@cruiser, ["B1", "B2", "B3"])
+      @board.place(@cruiser, ["C1", "C2", "C3"])
+      @board.place(@cruiser, ["D1", "D2", "D3"])
+      @board.place(@cruiser, ["A1", "A2", "A3"])
+      @board.place(@submarine, ["A4", "B4"])
+      # This is a ship specifically made for testing
+      tester = Ship.new("Tester", 2)
+      @board.computer_ship_placement(tester)
+      # Makes an array of nil or coordinates where something was placed
+      placed_at = @board.cells.map do |coordinate, cell|
+        coordinate if cell.ship.name == "Tester"
+      end
+      # Only has 3 valid spaces (horizontally)
+      expect(placed_at.compact).to eq(["C4", "D4"])
+    end
   end
 end
