@@ -9,26 +9,31 @@ class Game
     if setup_response == "q" || setup_response == "Q"
       puts 'Game over'
     elsif setup_response == "p" || setup_response == "P"
-      com_board = Board.new
-      com_board.generate_cells
-      puts new_board.render
-      # Computer places pieces
-      com_cruiser = Ship.new("Cruiser", 3)
-      com_sub = Ship.new("Submarine", 2)
-      com_board.computer_ship_placement(com_cruiser)
-      com_board.computer_ship_placement(com_sub)
-     
-      #user shtuff
-      user_board = Board.new
-      user_board.generate_cells
-      puts new_board.render
-      # userplaces pieces
-      user_cruiser = Ship.new("Cruiser", 3)
-      user_sub = Ship.new("Submarine", 2)
-      user_board.user_ship_placement(user_cruiser)
-      user_board.user_ship_placement(user_sub)
-      # method in Board class
     end
+  end
+      
+  def com_setup
+    com_board = Board.new
+    com_board.generate_cells
+    # Computer places pieces
+    com_cruiser = Ship.new("Cruiser", 3)
+    com_sub = Ship.new("Submarine", 2)
+    com_board.computer_ship_placement(com_cruiser)
+    com_board.computer_ship_placement(com_sub)
+  end
+
+  def user_setup
+    #user shtuff
+    user_board = Board.new
+    user_board.generate_cells
+    puts new_board.render
+    # user places pieces
+    user_cruiser = Ship.new("Cruiser", 3)
+    user_sub = Ship.new("Submarine", 2)
+    # method in Board class
+  end
+
+  
 
   end
 end
