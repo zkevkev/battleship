@@ -62,22 +62,13 @@ class Board
   end
 
   def valid_placement?(ship, placement)
-    if (horizontal_helper?(ship, placement) || vertical_helper?(ship, placement)) && ship.length == placement.length && collision_helper?(ship, placement)
+    if horizontal_helper?(ship, placement) && vertical_helper?(ship, placement) #diagonal case
+      false
+    elsif (horizontal_helper?(ship, placement) || vertical_helper?(ship, placement)) && ship.length == placement.length && collision_helper?(ship, placement)
+      true
     else
       false
     end
-      #check length
-      #check hz or check vt
-      #check overlap
-      #place ship!
-
-    # if horizontal_helper?(ship, placement) == true && vertical_helper?(ship, placement) == true
-    #   false
-    # elsif ship.length == placement.length && horizontal_helper?(ship, placement) == true || vertical_helper?(ship, placement) == true
-    #   true
-    # else
-    #   false
-    # end
   end
 
   def place(ship, placement)
@@ -147,10 +138,10 @@ class Board
     if Random.new.rand(0..1) == 0
       random_coordinates = random_horizontal_placement(ship)
     else
-      # random_coordinates = random_vertical_placement(ship)
+      random_coordinates = random_vertical_placement(ship)
     end
     # I think this is recursion
-    if collision_helper?(ship, random_coordinates) 
+    if valid_placement?(ship, random_coordinates) 
       place(ship, random_coordinates)
     else
       computer_ship_placement(ship)
