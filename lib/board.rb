@@ -57,8 +57,10 @@ class Board
   def collision_helper?(ship, placement)
     placement.each do |place|
       return false if @cells[place].ship != nil
+      binding.pry
     end
     true
+    binding.pry
   end
 
   def valid_placement?(ship, placement)
@@ -120,10 +122,17 @@ class Board
     final_placement = nums[random_index].map { |num| letter + num }
   end
 
-  # If vertically 
-      # each_cons to get sequential letters
-      # Randomly pick one of the sequences (0-1 OR 0-2)
-      # generate random number 1 through 4, and tack it on to get coordinates
+  def random_vertical_placement(ship)
+    # each_cons to get sequential letters
+    letters = []
+    ('A'..'D').each_cons(ship.length) { |letter| letters << letter }
+    # Randomly pick one of the sequences (0-1 OR 0-2)
+    random_index = Random.new.rand(0..(letters.length - 1))
+    # generate random number 1 through 4, and tack it on to get coordinates
+    number = Random.new.rand(1..4).to_s
+    # Array of random coordinates
+    final_placement = letters[random_index].map { |letter| letter + number}
+  end
 
   def computer_ship_placement(ship) # I decided to use a parameter instead
     # Randomizing
