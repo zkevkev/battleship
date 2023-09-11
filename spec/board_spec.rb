@@ -187,10 +187,9 @@ RSpec.describe Board do
   end
 
   describe "#computer_ship_placement" do
-  # PLEASE REVIEW THIS, dated -- but can still be useful...maybe
-    it 'places ship in a position' do
+    it "places ship in a position" do
       @board.computer_ship_placement(@cruiser)
-    #   # Check for number cells used up
+      # Check for number cells used up
       used_cells =  @board.cells.values.select do |cell|
         cell.ship != nil
       end
@@ -201,11 +200,11 @@ RSpec.describe Board do
       end
       # I couldn't figure out how to not have nils, so removed w/compact
       # Only assertion I could think of for now
-      expect(placed_at.compact). to be_a Array
+      expect(placed_at.compact).to be_a Array
       expect(@board.collision_helper?(@cruiser, placed_at.compact)).to be false
     end
 
-    it 'cannot place ship on used cell, only horizontal left' do
+    it "cannot place ship on used cell, only horizontal left" do
       @board.place(@cruiser, ["B1", "B2", "B3"])
       @board.place(@cruiser, ["C1", "C2", "C3"])
       @board.place(@cruiser, ["D1", "D2", "D3"])
@@ -221,9 +220,22 @@ RSpec.describe Board do
       # Only has 3 valid spaces (horizontally)
       expect(placed_at.compact).to eq(["A1", "A2", "A3"])
     end
-
-    # Someone else can write the test for 
-    # 'cannot place ship on used cell, only vertical left'
     
+    it "when only vertical space is left, does not create a conflict" do
+      @board.place(@cruiser, ["B1", "B2", "B3"])
+      @board.place(@cruiser, ["C1", "C2", "C3"])
+      @board.place(@cruiser, ["D1", "D2", "D3"])
+      @board.place(@cruiser, ["A1", "A2", "A3"])
+      @board.place(@submarine, ["A4", "B4"])
+      # This is a ship specifically made for testing
+      tester = Ship.new("Tester", 2)
+      @board.computer_ship_placement(tester)
+      # Makes an array of nil or coordinates where something was placed
+      placed_at = @board.cells.map do |coordinate, cell|
+        coordinate if cell.ship.name == "Tester"
+      end
+      # Only has 3 valid spaces (horizontally)
+      expect(placed_at.compact).to eq(["C4", "D4"])
+    end
   end
 end
