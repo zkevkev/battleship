@@ -188,23 +188,21 @@ RSpec.describe Board do
 
   describe "#computer_ship_placement" do
   # PLEASE REVIEW THIS, dated -- but can still be useful...maybe
-    # xit 'places ship in a position' do
-    #   @board.generate_cells
-    #   @board.computer_ship_placement(@cruiser)
+    xit 'places ship in a position' do
+      @board.computer_ship_placement(@cruiser)
     #   # Check for number cells used up
-    #   made_cells = @board.cells.values
-    #   used_cells = made_cells.select do |cell|
-    #     cell.ship != nil
-    #   end
-    #   expect(used_cells.count).to eq(3)
-    #   # Makes an array of nil or coordinates where something was placed
-    #   placed_at = @board.cells.map do |coordinate, cell|
-    #     coordinate if cell.ship != nil
-    #   end
-    #   # I couldn't figure out how to not have nils, so removed w/compact
-    #   # Only assertion I could think of for now
-    #   expect(@board.valid_placement?(@cruiser, placed_at.compact)).to be true
-    # end
+      used_cells =  @board.cells.values.select do |cell|
+        cell.ship != nil
+      end
+      expect(used_cells.count).to eq(3)
+      # Makes an array of nil or coordinates where something was placed
+      placed_at = @board.cells.map do |coordinate, cell|
+        coordinate if cell.ship != nil
+      end
+      # I couldn't figure out how to not have nils, so removed w/compact
+      # Only assertion I could think of for now
+      expect(@board.valid_placement?(@cruiser, placed_at.compact)).to be true
+    end
 
     it 'cannot place ship on used cell, only horizontal left' do
       @board.place(@cruiser, ["B1", "B2", "B3"])
