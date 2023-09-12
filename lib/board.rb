@@ -1,5 +1,5 @@
 class Board
-  attr_reader :cells
+  attr_accessor :cells
 
   def initialize
     @cells = generate_cells
@@ -113,13 +113,7 @@ class Board
   end
 
   def fire_upon(coordinate)
-    if !valid_coordinate?(coordinate)
-      "Please enter a valid coordinate"
-    elsif valid_coordinate?(coordinate) && @cells[coordinate].fired_upon?
-      "That coordinate has already been fired upon"
-    else
-      @cells[coordinate].fire_upon
-    end
+    @cells[coordinate].fire_upon
   end
 
   def random_horizontal_placement(ship)
@@ -165,6 +159,22 @@ class Board
 
   def com_fire_upon
     com_coordinate = @cells.keys.sample
-    @cells[com_coordinate].fired_upon? == false ? @cells[com_coordinate].fire_upon : com_fire_upon
+    if @cells[com_coordinate].fired_upon? == false
+      @cells[com_coordinate].fire_upon
+      com_coordinate
+    else
+      com_fire_upon
+    end
+  end
+
+  def clear_board
+    @cells.each do |coordinate, cell|
+      if cell.ship != nil 
+        cell.ship.health = cell.ship.length 
+        cell.ship.sunk = false
+      end
+      cell.ship = nil
+      cell.fired_upon = false
+    end
   end
 end
