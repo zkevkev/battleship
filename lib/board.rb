@@ -1,5 +1,5 @@
 class Board
-  attr_reader :cells
+  attr_accessor :cells
 
   def initialize
     @cells = generate_cells
@@ -165,6 +165,11 @@ class Board
 
   def com_fire_upon
     com_coordinate = @cells.keys.sample
-    @cells[com_coordinate].fired_upon? == false ? @cells[com_coordinate].fire_upon : com_fire_upon
+    if @cells[com_coordinate].fired_upon? == false
+      @cells[com_coordinate].fire_upon
+      com_coordinate
+    else
+      com_fire_upon
+    end
   end
 end
