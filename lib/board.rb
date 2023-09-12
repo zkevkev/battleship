@@ -28,10 +28,18 @@ class Board
   end
 
   def horizontal_helper?(ship, placement)
-    numbers = placement.map { |number| number[1].ord }
+    # ["A1", "B2", "B3"] => [['A', '1'], ['B', '2'], ['B', '2']]
+    placement_split = placement.map { |number| [number[0], number[1].ord] }
+    # index 0 values STAY THE SAME, index 1 values increment
+    # Both have to be true
+
+    placement_split.each do |placement|
+      return false if placement[0] != placement_split[0][0]
+    end
+
     current_index = 0
     until current_index == (placement.length - 1)
-      diff = numbers[current_index] - numbers[current_index + 1]
+      diff = placement_split[current_index][1] - placement_split[current_index + 1][1]
       if diff == -1
         current_index += 1
       else
@@ -42,10 +50,15 @@ class Board
   end
 
   def vertical_helper?(ship, placement)
-    letters = placement.map { |letter| letter[0].ord }
+    placement_split = placement.map { |letter| [letter[0].ord, letter[1]] }
+    
+    placement_split.each do |placement|
+      return false if placement[1] != placement_split[0][1]
+    end
+
     current_index = 0
     until current_index == (placement.length - 1)
-      diff = letters[current_index] - letters[current_index + 1]
+      diff = placement_split[current_index][0] - placement_split[current_index + 1][0]
       if diff == -1
         current_index += 1
       else
@@ -63,7 +76,8 @@ class Board
   end
 
   def valid_placement?(ship, placement)
-    if horizontal_helper?(ship, placement) && vertical_helper?(ship, placement) #diagonal case
+    # Diagonal
+    if horizontal_helper?(ship, placement) && vertical_helper?(ship, placement) 
       false
     elsif (horizontal_helper?(ship, placement) || vertical_helper?(ship, placement)) && ship.length == placement.length && collision_helper?(ship, placement)
       true
