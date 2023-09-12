@@ -248,6 +248,7 @@ RSpec.describe Board do
         coordinate if cell.fired_upon? == true
       end.compact
       expect(com_fired_coord.count).to eq(1)
+      expect(@board.cells[com_fired_coord[0]].render).to eq("M")
 
       @board.com_fire_upon
       com_fired_coord = @board.cells.map do |coordinate, cell|
@@ -264,7 +265,6 @@ RSpec.describe Board do
 
     it "cannot fire upon a cell that has already been fired upon" do
       # Unsure on a better way to test atm
-      @board.fire_upon("A2")
       @board.fire_upon("A3")
       @board.fire_upon("A4")
       @board.fire_upon("B1")
@@ -280,9 +280,13 @@ RSpec.describe Board do
       @board.fire_upon("D3")
       @board.fire_upon("D4")
       
+      @board.place(@submarine, ["A1", "A2"])
       expect(@board.cells["A1"].fired_upon?).to be false
+      expect(@board.cells["A1"].ship).to eq(@submarine)
+      expect(@board.cells["A1"].render(true)).to eq("S")
       @board.com_fire_upon
       expect(@board.cells["A1"].fired_upon?).to be true
+      expect(@board.cells["A1"].render(true)).to eq("X")
     end
   end
 end
