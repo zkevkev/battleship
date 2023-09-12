@@ -283,14 +283,18 @@ RSpec.describe Board do
       @board.place(@submarine, ["A1", "A2"])
       expect(@board.cells["A1"].fired_upon?).to be false
       expect(@board.cells["A1"].ship).to eq(@submarine)
+      expect(@board.cells["A1"].render).to eq(".")
       expect(@board.cells["A1"].render(true)).to eq("S")
+      expect(@board.cells["A2"].render).to eq(".")
       expect(@board.cells["A2"].render(true)).to eq("S")
 
       @board.com_fire_upon
       expect(@board.cells["A1"].fired_upon?).to eq(true).or(eq(false))
       expect(@board.cells["A2"].fired_upon?).to eq(true).or(eq(false))
       expect(@board.cells["A1"].render).to eq("H").or(eq("M")).or(eq("."))
+      expect(@board.cells["A1"].render(true)).to eq("H").or(eq("M")).or(eq("S"))
       expect(@board.cells["A2"].render).to eq("H").or(eq("M")).or(eq("."))
+      expect(@board.cells["A2"].render(true)).to eq("H").or(eq("M")).or(eq("S"))
 
       @board.com_fire_upon
       expect(@board.cells["A1"].render).to eq("X")
