@@ -46,10 +46,14 @@ class Game
     # I hate that this fixed it...but I swapped the two conditions and it started to work...
     if @user_board.valid_placement?(ship, user_input) && all_coordinate_valid && 
       @user_board.place(ship, user_input)
-      # Logic for sub placement
+      # Logic for sub placement check
+      @user_board.cells.each do |coordinate, cell|
+        if cell.ship == @user_sub
+          turn
+        end
+      end
       puts "Enter the squares for the Submarine (2 spaces):"
-      input_placement_checker(@user_sub)
-      # need another branch for if both ships are placed, this will get stuck in a loop
+      input_placement_checker(@user_sub)      
     else
       puts "Those are invalid coordinates, admiral. Please try again."
       input_placement_checker(ship)
