@@ -172,4 +172,11 @@ class Board
       com_fire_upon
     end
   end
+
+  def clear_board
+    @cells.each do |coordinate, cell|
+      cell.ship = nil
+      cell.fired_upon = false
+    end
+  end
 end
