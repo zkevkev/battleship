@@ -19,21 +19,14 @@ class Game
     if setup_response == "q" || setup_response == "Q"
       puts 'Game over'
     elsif setup_response == "p" || setup_response == "P"
-
-      com_setup
+      # Computer places pieces
+      @com_board.computer_ship_placement(@com_cruiser)
+      @com_board.computer_ship_placement(@com_sub)
+      # User places pieces
+      user_setup
     end
   end
-      
-  def com_setup
-    # Computer places pieces
-    @com_board.computer_ship_placement(@com_cruiser)
-    @com_board.computer_ship_placement(@com_sub)
 
-    user_setup
-  end
-    #user shtuff
-    # user places pieces
-    # method in Board class
   def user_setup 
     puts "I have laid out my ships on the grid.
     You now need to lay out your two ships.
@@ -41,27 +34,22 @@ class Game
     puts @user_board.render
     puts "Enter the squares for the Cruiser (3 spaces):"
  
-    input_placement_checker(@user_cruiser)  
+    input_placement_checker(@user_cruiser)
   end
 
-  def user_placement
-    puts "Enter the squares for the Cruiser (3 spaces):"
- 
-    input_placement_checker(@user_cruiser)  
-  end
-
-  # Changed it to accept a parameter, so it can be used for any ship
   def input_placement_checker(ship)
     user_input = gets.chomp
     user_input = user_input.split
 
-    # Renamed this
     all_coordinate_valid = user_input.all? { |coordinate| @user_board.valid_coordinate?(coordinate) }
 
     # I hate that this fixed it...but I swapped the two conditions and it started to work...
-    if @user_board.valid_placement?(ship, user_input) && all_coordinate_valid
+    if @user_board.valid_placement?(ship, user_input) && all_coordinate_valid && 
       @user_board.place(ship, user_input)
-      user_turn
+      # Logic for sub placement
+      puts "Enter the squares for the Submarine (2 spaces):"
+      input_placement_checker(@user_sub)
+      # need another branch for if both ships are placed, this will get stuck in a loop
     else
       puts "Those are invalid coordinates, admiral. Please try again."
       input_placement_checker(ship)
@@ -88,5 +76,6 @@ class Game
     # computer shoots (include some kind of collision check)
     # feedback on computer shot
     # check for if all ships of either player are sunk (game over method)
+    turn # will cycle until game over conditions are met
   end
 end

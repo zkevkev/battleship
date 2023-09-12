@@ -3,7 +3,6 @@ require "./spec/spec_helper"
 RSpec.describe Board do
   before(:each) do
     @board = Board.new
-    @board.generate_cells
     @cruiser = Ship.new("Cruiser", 3)
     @submarine = Ship.new("Submarine", 2)
   end
