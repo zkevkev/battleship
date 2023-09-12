@@ -113,13 +113,7 @@ class Board
   end
 
   def fire_upon(coordinate)
-    if !valid_coordinate?(coordinate)
-      "Please enter a valid coordinate"
-    elsif valid_coordinate?(coordinate) && @cells[coordinate].fired_upon?
-      "That coordinate has already been fired upon"
-    else
-      @cells[coordinate].fire_upon
-    end
+    @cells[coordinate].fire_upon
   end
 
   def random_horizontal_placement(ship)
