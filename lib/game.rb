@@ -47,9 +47,13 @@ class Game
     if @user_board.valid_placement?(ship, user_input) && all_coordinate_valid && 
       @user_board.place(ship, user_input)
       # Logic for sub placement
+      @user_board.cells.each do |coordinate, cell|
+        if cell.ship == @user_sub
+          turn
+        end
+      end
       puts "Enter the squares for the Submarine (2 spaces):"
-      input_placement_checker(@user_sub)
-      # need another branch for if both ships are placed, this will get stuck in a loop
+      input_placement_checker(@user_sub)      
     else
       puts "Those are invalid coordinates, admiral. Please try again."
       input_placement_checker(ship)
@@ -65,7 +69,7 @@ class Game
     user_input = gets.chomp
     @user_board.fire_upon(user_input)
     
-    if @user_board.cells[user_input].ship == nil
+    if @user_board.cells[user_input].ship == nil && 
       shot_outcome = "miss"
     elsif @user_board.cells[user_input].ship != nil && @user_board.cells[user_input].ship.health > 0
       shot_outcome = "hit!"
