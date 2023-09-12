@@ -162,4 +162,9 @@ class Board
       computer_ship_placement(ship)
     end
   end
+
+  def com_fire_upon
+    com_coordinate = @cells.keys.sample
+    @cells[com_coordinate].fired_upon? == false ? @cells[com_coordinate].fire_upon : com_fire_upon
+  end
 end
