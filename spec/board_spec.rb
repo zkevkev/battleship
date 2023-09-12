@@ -240,4 +240,38 @@ RSpec.describe Board do
       expect(placed_at.compact).to eq(["C4", "D4"])
     end
   end
+
+  describe "#com_fire_upon" do
+    it "random cell to fire upon" do
+      @board.com_fire_upon
+      com_fired_coord = @board.cells.map do |coordinate, cell|
+        coordinate if cell.fire_upon == true
+      end
+
+      expect(com_fired_coord.compact).to eq(com_fired_coord)
+    end
+
+    it "cannot fire upon a cell that has already been fired upon" do
+      # Unsure on a better way to test atm
+      @board.fire_upon("A2")
+      @board.fire_upon("A3")
+      @board.fire_upon("A4")
+      @board.fire_upon("B1")
+      @board.fire_upon("B2")
+      @board.fire_upon("B3")
+      @board.fire_upon("B4")
+      @board.fire_upon("C1")
+      @board.fire_upon("C2")
+      @board.fire_upon("C3")
+      @board.fire_upon("C4")
+      @board.fire_upon("D1")
+      @board.fire_upon("D2")
+      @board.fire_upon("D3")
+      @board.fire_upon("D4")
+      
+      expect(@board.cells["A1"].fired_upon?).to be false
+      @board.com_fire_upon
+      expect(@board.cells["A1"].fired_upon?).to be true
+    end
+  end
 end
