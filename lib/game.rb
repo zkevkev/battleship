@@ -46,7 +46,7 @@ class Game
     # I hate that this fixed it...but I swapped the two conditions and it started to work...
     if @user_board.valid_placement?(ship, user_input) && all_coordinate_valid && 
       @user_board.place(ship, user_input)
-      # Logic for sub placement
+      # Logic for sub placement check
       @user_board.cells.each do |coordinate, cell|
         if cell.ship == @user_sub
           turn
