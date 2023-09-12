@@ -245,10 +245,21 @@ RSpec.describe Board do
     it "random cell to fire upon" do
       @board.com_fire_upon
       com_fired_coord = @board.cells.map do |coordinate, cell|
-        coordinate if cell.fire_upon == true
-      end
+        coordinate if cell.fired_upon? == true
+      end.compact
+      expect(com_fired_coord.count).to eq(1)
 
-      expect(com_fired_coord.compact).to eq(com_fired_coord)
+      @board.com_fire_upon
+      com_fired_coord = @board.cells.map do |coordinate, cell|
+        coordinate if cell.fired_upon? == true
+      end.compact
+      expect(com_fired_coord.count).to eq(2)
+
+      @board.com_fire_upon
+      com_fired_coord = @board.cells.map do |coordinate, cell|
+        coordinate if cell.fired_upon? == true
+      end.compact
+      expect(com_fired_coord.count).to eq(3)
     end
 
     it "cannot fire upon a cell that has already been fired upon" do
