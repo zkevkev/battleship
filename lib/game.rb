@@ -34,9 +34,9 @@ class Game
     # user places pieces
     # method in Board class
   def user_setup 
-    puts "I have laid out my ships on the grid./n
-    You now need to lay out your two ships./n
-    The Cruiser is three units long and the Submarine is two units long./n"
+    puts "I have laid out my ships on the grid.
+    You now need to lay out your two ships.
+    The Cruiser is three units long and the Submarine is two units long."
     puts @user_board.render
 
     user_placement
@@ -45,24 +45,21 @@ class Game
   def user_placement
     puts "Enter the squares for the Cruiser (3 spaces):"
  
-    input_coordinate_checker
-
-    end 
-      @user_board.place(@user_cruiser, cruiser_input)
-
-      puts "Those are invalid coordinates, admiral. Please try again."
-      user_placement
-    end
+    input_placement_checker  
   end
 
   def input_placement_checker
     user_input = gets.chomp
     user_input = user_input.split
 
-    user_input.each do |coordinate| 
-      valid_coordinate?(coordinate) 
+    valid_coordinate = user_input.all? { |coordinate| @user_board.valid_coordinate?(coordinate) }
 
-      && valid_placement?(user_input)
+    if valid_coordinate # && @user_board.valid_placement?(@user_cruiser, user_input)
+      @user_board.place(@user_cruiser, user_input)
+    else
+      puts "Those are invalid coordinates, admiral. Please try again."
+      input_placement_checker
+    end
   end
   
 
