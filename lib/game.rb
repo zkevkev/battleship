@@ -45,20 +45,23 @@ class Game
   def user_placement
     puts "Enter the squares for the Cruiser (3 spaces):"
  
-    input_placement_checker  
+    input_placement_checker(@user_cruiser)  
   end
 
-  def input_placement_checker
+  # Changed it to accept a parameter, so it can be used for any ship
+  def input_placement_checker(ship)
     user_input = gets.chomp
     user_input = user_input.split
 
-    valid_coordinate = user_input.all? { |coordinate| @user_board.valid_coordinate?(coordinate) }
+    # Renamed this
+    all_coordinate_valid = user_input.all? { |coordinate| @user_board.valid_coordinate?(coordinate) }
 
-    if valid_coordinate # && @user_board.valid_placement?(@user_cruiser, user_input)
-      @user_board.place(@user_cruiser, user_input)
+    # I hate that this fixed it...but I swapped the two conditions and it started to work...
+    if @user_board.valid_placement?(ship, user_input) && all_coordinate_valid
+      @user_board.place(ship, user_input)
     else
       puts "Those are invalid coordinates, admiral. Please try again."
-      input_placement_checker
+      input_placement_checker(ship)
     end
   end
   
