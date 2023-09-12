@@ -13,6 +13,8 @@ class Game
   end
 
   def setup
+    @user_board.clear_board
+    @com_board.clear_board
     puts "Welcome to BATTLESHIP"
     puts "Enter p to play. Enter q to quit."
     setup_response = gets.chomp
@@ -127,8 +129,6 @@ class Game
     else
       puts "You may have won this battle, but you haven't seen the last of me."
     end
-    @user_board.clear_board
-    @com_board.clear_board
     setup
   end
 end
