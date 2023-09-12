@@ -101,8 +101,10 @@ class Game
       setup
     else
       puts "You may have won this battle, but you haven't seen the last of me."
-      @user_board.cells = @user_board.generate_cells
-      @com_board.cells = @com_board.generate_cells
+      @user_board.clear_board
+      @com_board.clear_board
+      # @user_board.cells = @user_board.generate_cells
+      # @com_board.cells = @com_board.generate_cells
       setup
     end 
   end

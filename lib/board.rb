@@ -175,6 +175,10 @@ class Board
 
   def clear_board
     @cells.each do |coordinate, cell|
+      if cell.ship != nil 
+        cell.ship.health = cell.ship.length 
+        cell.ship.sunk = false
+      end
       cell.ship = nil
       cell.fired_upon = false
     end
