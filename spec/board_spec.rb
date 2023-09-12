@@ -293,7 +293,7 @@ RSpec.describe Board do
       expect(@board.cells["A2"].render).to eq("H").or(eq("M")).or(eq("."))
 
       @board.com_fire_upon
-      expect(@board.cells["A1"].render(true)).to eq("X")
+      expect(@board.cells["A1"].render).to eq("X")
       expect(@board.cells["A2"].render(true)).to eq("X")
     end
   end
