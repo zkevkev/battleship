@@ -10,8 +10,8 @@ class Game
     @user_cruiser = Ship.new("Cruiser", 3)
     @user_sub = Ship.new("Submarine", 2)
   end
+
   def setup
-    require 'pry'; binding.pry
     puts "Welcome to BATTLESHIP"
     puts "Enter p to play. Enter q to quit."
     setup_response = gets.chomp
@@ -19,39 +19,46 @@ class Game
     if setup_response == "q" || setup_response == "Q"
       puts 'Game over'
     elsif setup_response == "p" || setup_response == "P"
+      com_setup
     end
   end
       
   def com_setup
     # Computer places pieces
-    @com_board.computer_ship_placement(com_cruiser)
-    @com_board.computer_ship_placement(com_sub)
-  end
+    @com_board.computer_ship_placement(@com_cruiser)
+    @com_board.computer_ship_placement(@com_sub)
 
-  def user_setup
-    require 'pry'; binding.pry
+    user_setup
+  end
     #user shtuff
-    puts new_board.render
     # user places pieces
     # method in Board class
-  end
-
-  def start_method 
-    puts "I have laid out my ships on the grid./n
-    You now need to lay out your two ships./n
-    The Cruiser is three units long and the Submarine is two units long./n"
+  def user_setup 
+    puts "I have laid out my ships on the grid.
+    You now need to lay out your two ships.
+    The Cruiser is three units long and the Submarine is two units long."
     puts @user_board.render
+
+    user_placement
   end
 
   def user_placement
     puts "Enter the squares for the Cruiser (3 spaces):"
-    cruiser_input = gets.chomp
-    cruiser_input = cruiser_input.split
-    if cruiser_input.all? { |coordinate| valid_coordinate?(coordinate) } && valid_placement?(cruiser_input)
-      @user_board.place(@user_cruiser, cruiser_input)
+ 
+    input_placement_checker  
+  end
+
+  def input_placement_checker
+    user_input = gets.chomp
+    user_input = user_input.split
+
+    valid_coordinate = user_input.all? { |coordinate| @user_board.valid_coordinate?(coordinate) }
+
+    if valid_coordinate # && @user_board.valid_placement?(@user_cruiser, user_input)
+      @user_board.place(@user_cruiser, user_input)
     else
       puts "Those are invalid coordinates, admiral. Please try again."
-      user_placement
+      input_placement_checker
     end
   end
   
