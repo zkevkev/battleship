@@ -239,4 +239,65 @@ RSpec.describe Board do
       expect(placed_at.compact).to eq(["C4", "D4"])
     end
   end
+
+  describe "#com_fire_upon" do
+    it "random cell to fire upon" do
+      @board.com_fire_upon
+      com_fired_coord = @board.cells.map do |coordinate, cell|
+        coordinate if cell.fired_upon? == true
+      end.compact
+      expect(com_fired_coord.count).to eq(1)
+      expect(@board.cells[com_fired_coord[0]].render).to eq("M")
+
+      @board.com_fire_upon
+      com_fired_coord = @board.cells.map do |coordinate, cell|
+        coordinate if cell.fired_upon? == true
+      end.compact
+      expect(com_fired_coord.count).to eq(2)
+
+      @board.com_fire_upon
+      com_fired_coord = @board.cells.map do |coordinate, cell|
+        coordinate if cell.fired_upon? == true
+      end.compact
+      expect(com_fired_coord.count).to eq(3)
+    end
+
+    it "cannot fire upon a cell that has already been fired upon" do
+      # Unsure on a better way to test atm
+      @board.fire_upon("A3")
+      @board.fire_upon("A4")
+      @board.fire_upon("B1")
+      @board.fire_upon("B2")
+      @board.fire_upon("B3")
+      @board.fire_upon("B4")
+      @board.fire_upon("C1")
+      @board.fire_upon("C2")
+      @board.fire_upon("C3")
+      @board.fire_upon("C4")
+      @board.fire_upon("D1")
+      @board.fire_upon("D2")
+      @board.fire_upon("D3")
+      @board.fire_upon("D4")
+      
+      @board.place(@submarine, ["A1", "A2"])
+      expect(@board.cells["A1"].fired_upon?).to be false
+      expect(@board.cells["A1"].ship).to eq(@submarine)
+      expect(@board.cells["A1"].render).to eq(".")
+      expect(@board.cells["A1"].render(true)).to eq("S")
+      expect(@board.cells["A2"].render).to eq(".")
+      expect(@board.cells["A2"].render(true)).to eq("S")
+
+      @board.com_fire_upon
+      expect(@board.cells["A1"].fired_upon?).to eq(true).or(eq(false))
+      expect(@board.cells["A2"].fired_upon?).to eq(true).or(eq(false))
+      expect(@board.cells["A1"].render).to eq("H").or(eq("M")).or(eq("."))
+      expect(@board.cells["A1"].render(true)).to eq("H").or(eq("M")).or(eq("S"))
+      expect(@board.cells["A2"].render).to eq("H").or(eq("M")).or(eq("."))
+      expect(@board.cells["A2"].render(true)).to eq("H").or(eq("M")).or(eq("S"))
+
+      @board.com_fire_upon
+      expect(@board.cells["A1"].render).to eq("X")
+      expect(@board.cells["A2"].render(true)).to eq("X")
+    end
+  end
 end
