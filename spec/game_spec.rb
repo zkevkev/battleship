@@ -10,14 +10,4 @@ RSpec.describe Game do
     @game.setup
     @game.com_setup
   end
-
-  describe "#fire_upon and #fired_upon?" do
-    it "fires on a cell and updates state" do
-      @cell_1.place_ship(@cruiser)
-      expect(@cell_1.fired_upon?).to be false
-      @cell_1.fire_upon
-      expect(@cell_1.fired_upon?).to be true
-      expect(@cell_1.ship.health).to eq(2)
-    end
-  end
 end

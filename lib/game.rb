@@ -19,6 +19,7 @@ class Game
     if setup_response == "q" || setup_response == "Q"
       puts 'Game over'
     elsif setup_response == "p" || setup_response == "P"
+
       com_setup
     end
   end
@@ -38,8 +39,9 @@ class Game
     You now need to lay out your two ships.
     The Cruiser is three units long and the Submarine is two units long."
     puts @user_board.render
-
-    user_placement
+    puts "Enter the squares for the Cruiser (3 spaces):"
+ 
+    input_placement_checker(@user_cruiser)  
   end
 
   def user_placement
@@ -59,11 +61,32 @@ class Game
     # I hate that this fixed it...but I swapped the two conditions and it started to work...
     if @user_board.valid_placement?(ship, user_input) && all_coordinate_valid
       @user_board.place(ship, user_input)
+      user_turn
     else
       puts "Those are invalid coordinates, admiral. Please try again."
       input_placement_checker(ship)
     end
   end
   
-
+  def turn
+    puts "=============COMPUTER BOARD============="
+    puts @com_board.render
+    puts "==============PLAYER BOARD=============="
+    puts @user_board.render(true)
+    puts "Enter the coordinate for your shot:"
+    user_input = gets.chomp
+    @user_board.fire_upon(user_input)
+    
+    if @user_board.cells[user_input].ship == nil
+      shot_outcome = "miss"
+    elsif @user_board.cells[user_input].ship != nil && @user_board.cells[user_input].ship.health > 0
+      shot_outcome = "hit!"
+    elsif @user_board.cells[user_input].ship != nil && @user_board.cells[user_input].ship.health <= 0
+      shot_outcome = "hit! You sunk my #{@user_board.cells[user_input].ship}"
+    end
+    puts "Your shot on #{user_input} was a #{shot_outcome}."
+    # computer shoots (include some kind of collision check)
+    # feedback on computer shot
+    # check for if all ships of either player are sunk (game over method)
+  end
 end
