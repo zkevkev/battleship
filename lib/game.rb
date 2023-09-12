@@ -53,7 +53,7 @@ class Game
         end
       end
       puts "Enter the squares for the Submarine (2 spaces):"
-      input_placement_checker(@user_sub)      
+      input_placement_checker(@user_sub)
     else
       puts "Those are invalid coordinates, admiral. Please try again."
       input_placement_checker(ship)
@@ -85,7 +85,7 @@ class Game
       elsif @user_board.cells[com_shot].ship != nil && @user_board.cells[com_shot].ship.health > 0
         com_shot_outcome = "hit!"
       elsif @user_board.cells[com_shot].ship != nil && @user_board.cells[com_shot].ship.health <= 0
-        com_shot_outcome = "hit! You sunk my #{@user_board.cells[com_shot].ship.name}. Blyat."
+        com_shot_outcome = "hit! I sunk your #{@user_board.cells[com_shot].ship.name}."
       end
 
         # feedback on computer shot

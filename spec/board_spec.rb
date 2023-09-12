@@ -300,4 +300,21 @@ RSpec.describe Board do
       expect(@board.cells["A2"].render(true)).to eq("X")
     end
   end
+
+  describe "#clear_board" do
+    it "clears ships" do
+      @board.place(@submarine, ["A1", "A2"])
+      expect(@board.cells["A1"].render(true)).to eq("S")
+      @board.clear_board
+      expect(@board.cells["A1"].render(true)).to eq(".")
+    end
+
+    it "clears fired_upon" do
+      @board.place(@submarine, ["A1", "A2"])
+      @board.fire_upon("A2")
+      expect(@board.cells["A2"].render(true)).to eq("H")
+      @board.clear_board
+      expect(@board.cells["A2"].render(true)).to eq(".")
+    end
+  end
 end
