@@ -57,25 +57,33 @@ class Game
   end
   
   def turn
-    puts "=============COMPUTER BOARD============="
-    puts @com_board.render
-    puts "==============PLAYER BOARD=============="
-    puts @user_board.render(true)
-    puts "Enter the coordinate for your shot:"
-    user_input = gets.chomp
-    @user_board.fire_upon(user_input)
-    
-    if @user_board.cells[user_input].ship == nil
-      shot_outcome = "miss"
-    elsif @user_board.cells[user_input].ship != nil && @user_board.cells[user_input].ship.health > 0
-      shot_outcome = "hit!"
-    elsif @user_board.cells[user_input].ship != nil && @user_board.cells[user_input].ship.health <= 0
-      shot_outcome = "hit! You sunk my #{@user_board.cells[user_input].ship}"
+    until (@user_cruiser.health == 0 && @user_sub.health == 0)||(@com_cruiser.health == 0 && @com_sub.health == 0)
+      puts "=============COMPUTER BOARD============="
+      puts @com_board.render
+      puts "==============PLAYER BOARD=============="
+      puts @user_board.render(true)
+      puts "Enter the coordinate for your shot:"
+      user_input = gets.chomp
+      @user_board.fire_upon(user_input)
+      
+      if @user_board.cells[user_input].ship == nil
+        shot_outcome = "miss"
+      elsif @user_board.cells[user_input].ship != nil && @user_board.cells[user_input].ship.health > 0
+        shot_outcome = "hit!"
+      elsif @user_board.cells[user_input].ship != nil && @user_board.cells[user_input].ship.health <= 0
+        shot_outcome = "hit! You sunk my #{@user_board.cells[user_input].ship}"
+      end
+      puts "Your shot on #{user_input} was a #{shot_outcome}."
+      # computer shoots (include some kind of collision check)
+      # feedback on computer shot
+      # check for if all ships of either player are sunk (game over method)
+      turn # will cycle until game over conditions are met
     end
-    puts "Your shot on #{user_input} was a #{shot_outcome}."
-    # computer shoots (include some kind of collision check)
-    # feedback on computer shot
-    # check for if all ships of either player are sunk (game over method)
-    turn # will cycle until game over conditions are met
+  if @user_cruiser.health == 0
+    puts "you just lost to a computer made by mod 1 students. pathetic."
+    setup
+  else
+    puts "you may have won this battle, but you haven't seen the last of me"
+    setup
   end
 end
