@@ -15,16 +15,18 @@ class Game
   def setup
     puts "Welcome to BATTLESHIP"
     puts "Enter p to play. Enter q to quit."
-    setup_response = gets.chomp
+    setup_response = gets.chomp.downcase
 
-    if setup_response == "q" || setup_response == "Q"
+    if setup_response == "q"
       abort 'Game over'
-    elsif setup_response == "p" || setup_response == "P"
+    elsif setup_response == "p"
       # Computer places pieces
       @com_board.computer_ship_placement(@com_cruiser)
       @com_board.computer_ship_placement(@com_sub)
       # User places pieces
       user_setup
+    else
+      setup
     end
   end
 
