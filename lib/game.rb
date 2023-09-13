@@ -13,15 +13,12 @@ class Game
   end
 
   def setup
-    @user_board.clear_board
-    @com_board.clear_board
     puts "Welcome to BATTLESHIP"
     puts "Enter p to play. Enter q to quit."
     setup_response = gets.chomp
 
     if setup_response == "q" || setup_response == "Q"
-      puts 'Game over'
-      return
+      abort 'Game over'
     elsif setup_response == "p" || setup_response == "P"
       # Computer places pieces
       @com_board.computer_ship_placement(@com_cruiser)
@@ -129,6 +126,8 @@ class Game
     else
       puts "You may have won this battle, but you haven't seen the last of me."
     end
+    @user_board.clear_board
+    @com_board.clear_board
     setup
   end
 end
