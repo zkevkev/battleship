@@ -85,6 +85,7 @@ class Game
       com_turn
       end
     end
+    puts "My shot on #{@user_shot_input} sunk your last ship!"
     game_over
   end
 
@@ -93,6 +94,7 @@ class Game
     @com_shot = @user_board.com_fire_upon
       turn_result
    end
+   puts "*glug* Your shot on #{@com_shot} sunk my last ship! *glug*"
    game_over
   end
 
@@ -102,7 +104,7 @@ class Game
       user_shot_outcome = "miss."
     elsif com_board_cell_render == "H"
       user_shot_outcome = "hit!"
-    elsif com_board_cell_render == "S"
+    elsif com_board_cell_render == "X"
       user_shot_outcome = "hit! You sunk my #{@com_board.cells[@user_shot_input].ship.name}. Blyat."
     end
 
