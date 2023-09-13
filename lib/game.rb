@@ -46,7 +46,7 @@ class Game
     user_placement = user_placement.split
     all_coordinate_valid = user_placement.all? { |coordinate| @user_board.valid_coordinate?(coordinate) }
 
-    if user_placement_index && @user_board.valid_placement?(ship, user_placement) && all_coordinate_valid
+    if user_placement_index && all_coordinate_valid && @user_board.valid_placement?(ship, user_placement)
       @user_board.place(ship, user_placement)
       # Logic for sub placement check
       @user_board.cells.each do |coordinate, cell|
