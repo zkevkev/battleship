@@ -18,7 +18,7 @@ class Game
     setup_response = gets.chomp.downcase
 
     if setup_response == "q"
-      abort 'Game over'
+      abort "Game over"
     elsif setup_response == "p"
       # Computer places pieces
       @com_board.computer_ship_placement(@com_cruiser)
@@ -42,7 +42,7 @@ class Game
 
   def input_placement_checker(ship)
     user_placement = gets.chomp.upcase
-    user_placement_index = (ship.length * 3 - 1) == user_placement.length
+    user_placement_index = (ship.length * 2) == user_placement.delete(" ").length
     user_placement = user_placement.split
     all_coordinate_valid = user_placement.all? { |coordinate| @user_board.valid_coordinate?(coordinate) }
 
