@@ -50,9 +50,7 @@ class Game
       @user_board.place(ship, user_placement)
       # Logic for sub placement check
       @user_board.cells.each do |coordinate, cell|
-        if cell.ship == @user_sub
-          start_turn
-        end
+        start_turn if cell.ship == @user_sub
       end
       puts "Enter the squares for the Submarine (2 spaces):"
       input_placement_checker(@user_sub)
