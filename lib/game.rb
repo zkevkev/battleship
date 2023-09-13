@@ -85,17 +85,12 @@ class Game
       com_turn
       end
     end
-    puts "My shot on #{@user_shot_input} sunk your last ship!"
-    game_over
+    turn_result
   end
 
   def com_turn
-   until @com_cruiser.health == 0 && @com_sub.health == 0
     @com_shot = @user_board.com_fire_upon
       turn_result
-   end
-   puts "*glug* Your shot on #{@com_shot} sunk my last ship! *glug*"
-   game_over
   end
 
   def turn_result
@@ -117,11 +112,16 @@ class Game
       com_shot_outcome = "hit! I sunk your #{@user_board.cells[@com_shot].ship.name}."
     end
 
-      # feedback on computer shot
-      # check for if all ships of either player are sunk (game over method)
-      puts "Your shot on #{@user_shot_input} was a #{user_shot_outcome}"
-      puts "My shot on #{@com_shot} was a #{com_shot_outcome}"
+    # feedback on computer shot
+    # check for if all ships of either player are sunk (game over method)
+    puts "Your shot on #{@user_shot_input} was a #{user_shot_outcome}"
+    puts "My shot on #{@com_shot} was a #{com_shot_outcome}"
+
+    if (@com_cruiser.health == 0 && @com_sub.health == 0) || (@user_cruiser.health == 0 && @user_sub.health == 0)
+      game_over
+    else
       start_turn # will cycle until game over conditions are met
+    end
   end
 
   def game_over
@@ -130,6 +130,7 @@ class Game
     puts "==============PLAYER BOARD=============="
     puts @user_board.render(true)
     if @user_cruiser.health == 0 && @user_sub.health == 0
+      turn_result
       puts "You just lost to a computer made by mod 1 students. Pathetic. Press return to go to main menu."
       gets.chomp
     else
