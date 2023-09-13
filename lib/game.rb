@@ -41,7 +41,7 @@ class Game
   end
 
   def input_placement_checker(ship)
-    user_placement = gets.chomp
+    user_placement = gets.chomp.upcase
     user_placement_index = (ship.length * 3 - 1) == user_placement.length
     user_placement = user_placement.split
     all_coordinate_valid = user_placement.all? { |coordinate| @user_board.valid_coordinate?(coordinate) }
