@@ -11,6 +11,7 @@
 - It seemed like there were chances to integrate modules or class methods, but didn't have enough time to learn and implement. 
 - Other features we are interested in adding are:
     - person vs person mode
+    - sound feedback after firing
     - additional ships/ larger board
     - user interface to be cleaner/ more bullet proof
 

@@ -130,11 +130,12 @@ class Game
     puts "==============PLAYER BOARD=============="
     puts @user_board.render(true)
     if @user_cruiser.health == 0 && @user_sub.health == 0
-      turn_result
-      puts "You just lost to a computer made by mod 1 students. Pathetic. Press return to go to main menu."
+      puts "You just lost to a computer made by mod 1 students. Pathetic."
+      puts "Press return to go to main menu."
       gets.chomp
     else
-      puts "You may have won this battle, but you haven't seen the last of me. Press return to go to main menu."
+      puts "You may have won this battle, but you haven't seen the last of me."
+      puts "Press return to go to main menu."
       gets.chomp
     end
     @user_board.clear_board
