@@ -240,7 +240,7 @@ RSpec.describe Board do
   end
 
   describe "#com_fire_upon" do
-    it "random cell to fire upon" do
+    it "generates a random cell to fire upon" do
       @board.com_fire_upon
       com_fired_coord = @board.cells.map do |coordinate, cell|
         coordinate if cell.fired_upon? == true
@@ -277,7 +277,7 @@ RSpec.describe Board do
       @board.fire_upon("D2")
       @board.fire_upon("D3")
       @board.fire_upon("D4")
-      
+
       @board.place(@submarine, ["A1", "A2"])
       expect(@board.cells["A1"].fired_upon?).to be false
       expect(@board.cells["A1"].ship).to eq(@submarine)
@@ -301,14 +301,14 @@ RSpec.describe Board do
   end
 
   describe "#clear_board" do
-    it "clears ships" do
+    it "clears ship cell attribute" do
       @board.place(@submarine, ["A1", "A2"])
       expect(@board.cells["A1"].render(true)).to eq("S")
       @board.clear_board
       expect(@board.cells["A1"].render(true)).to eq(".")
     end
 
-    it "clears fired_upon" do
+    it "clears fired_upon cell attribute" do
       @board.place(@submarine, ["A1", "A2"])
       @board.fire_upon("A2")
       expect(@board.cells["A2"].render(true)).to eq("H")
