@@ -8,23 +8,25 @@ class Game
     @user_board = Board.new
     @user_cruiser = Ship.new("Cruiser", 3)
     @user_sub = Ship.new("Submarine", 2)
-    @user_input = nil
+    @user_shot_input = nil
     @com_shot = nil
   end
 
   def setup
     puts "Welcome to BATTLESHIP"
     puts "Enter p to play. Enter q to quit."
-    setup_response = gets.chomp
+    setup_response = gets.chomp.downcase
 
-    if setup_response == "q" || setup_response == "Q"
-      abort 'Game over'
-    elsif setup_response == "p" || setup_response == "P"
+    if setup_response == "q"
+      abort "Game over"
+    elsif setup_response == "p"
       # Computer places pieces
       @com_board.computer_ship_placement(@com_cruiser)
       @com_board.computer_ship_placement(@com_sub)
       # User places pieces
       user_setup
+    else
+      setup
     end
   end
 
@@ -39,8 +41,8 @@ class Game
   end
 
   def input_placement_checker(ship)
-    user_placement = gets.chomp
-    user_placement_index = (ship.length * 3 - 1) == user_placement.length
+    user_placement = gets.chomp.upcase
+    user_placement_index = (ship.length * 2) == user_placement.delete(" ").length
     user_placement = user_placement.split
     all_coordinate_valid = user_placement.all? { |coordinate| @user_board.valid_coordinate?(coordinate) }
 
@@ -48,9 +50,7 @@ class Game
       @user_board.place(ship, user_placement)
       # Logic for sub placement check
       @user_board.cells.each do |coordinate, cell|
-        if cell.ship == @user_sub
-          start_turn
-        end
+        start_turn if cell.ship == @user_sub
       end
       puts "Enter the squares for the Submarine (2 spaces):"
       input_placement_checker(@user_sub)
@@ -73,15 +73,15 @@ class Game
 
   def user_turn
     until @user_cruiser.health == 0 && @user_sub.health == 0
-      @user_input = gets.chomp
-      if !@com_board.valid_coordinate?(@user_input)
+      @user_shot_input = gets.chomp.upcase.strip
+      if !@com_board.valid_coordinate?(@user_shot_input)
         puts "Please enter a valid coordinate"
         user_turn
-      elsif @com_board.valid_coordinate?(@user_input) && @com_board.cells[@user_input].fired_upon?
+      elsif @com_board.valid_coordinate?(@user_shot_input) && @com_board.cells[@user_shot_input].fired_upon?
         puts "That coordinate has already been fired upon, pick somewhere else"
         user_turn
       else
-      @com_board.fire_upon(@user_input)
+      @com_board.fire_upon(@user_shot_input)
       com_turn
       end
     end
@@ -97,12 +97,12 @@ class Game
   end
 
   def turn_result
-    if @com_board.cells[@user_input].ship == nil
+    if @com_board.cells[@user_shot_input].ship == nil
       user_shot_outcome = "miss."
-    elsif @com_board.cells[@user_input].ship != nil && @com_board.cells[@user_input].ship.health > 0
+    elsif @com_board.cells[@user_shot_input].ship != nil && @com_board.cells[@user_shot_input].ship.health > 0
       user_shot_outcome = "hit!"
-    elsif @com_board.cells[@user_input].ship != nil && @com_board.cells[@user_input].ship.health <= 0
-      user_shot_outcome = "hit! You sunk my #{@com_board.cells[@user_input].ship.name}. Blyat."
+    elsif @com_board.cells[@user_shot_input].ship != nil && @com_board.cells[@user_shot_input].ship.health <= 0
+      user_shot_outcome = "hit! You sunk my #{@com_board.cells[@user_shot_input].ship.name}. Blyat."
     end
 
     if @user_board.cells[@com_shot].ship == nil
@@ -115,7 +115,7 @@ class Game
 
       # feedback on computer shot
       # check for if all ships of either player are sunk (game over method)
-      puts "Your shot on #{@user_input} was a #{user_shot_outcome}"
+      puts "Your shot on #{@user_shot_input} was a #{user_shot_outcome}"
       puts "My shot on #{@com_shot} was a #{com_shot_outcome}"
       start_turn # will cycle until game over conditions are met
   end
