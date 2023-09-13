@@ -73,7 +73,7 @@ class Game
 
   def user_turn
     until @user_cruiser.health == 0 && @user_sub.health == 0
-      @user_shot_input = gets.chomp.upcase
+      @user_shot_input = gets.chomp.upcase.strip
       if !@com_board.valid_coordinate?(@user_shot_input)
         puts "Please enter a valid coordinate"
         user_turn
