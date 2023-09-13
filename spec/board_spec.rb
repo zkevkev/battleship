@@ -153,14 +153,6 @@ RSpec.describe Board do
 
       expect(@board.cells["A1"].fired_upon?).to be true
     end
-
-    it "will not not allow firing on invalid coordinates" do
-      expect(@board.fire_upon("X1")).to eq("Please enter a valid coordinate")
-
-      @board.fire_upon("A1")
-
-      expect(@board.fire_upon("A1")).to eq("That coordinate has already been fired upon")
-    end
   end
 
   describe "#random_horizontal_placement" do

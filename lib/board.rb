@@ -6,7 +6,7 @@ class Board
   end
 
   def generate_cells
-    @cells = {}
+    cells = {}
     pairs = []
     range_alphas = ["A", "B", "C", "D"]
     range_nums = ["1", "2", "3", "4"]
@@ -17,9 +17,9 @@ class Board
       end
     end
     pairs.sort.each do |pair|
-      @cells[pair] = Cell.new(pair)
+      cells[pair] = Cell.new(pair)
     end
-    @cells
+    cells
   end
 
   def valid_coordinate?(coordinate)
@@ -51,7 +51,7 @@ class Board
 
   def vertical_helper?(ship, placement)
     placement_split = placement.map { |letter| [letter[0].ord, letter[1]] }
-    
+
     placement_split.each do |placement|
       return false if placement[1] != placement_split[0][1]
     end
@@ -77,7 +77,7 @@ class Board
 
   def valid_placement?(ship, placement)
     # Diagonal
-    if horizontal_helper?(ship, placement) && vertical_helper?(ship, placement) 
+    if horizontal_helper?(ship, placement) && vertical_helper?(ship, placement)
       false
     elsif (horizontal_helper?(ship, placement) || vertical_helper?(ship, placement)) && ship.length == placement.length && collision_helper?(ship, placement)
       true

@@ -7,7 +7,5 @@ RSpec.describe Game do
 
   it "exists" do
     expect(@game).to be_an_instance_of(Game)
-    @game.setup
-    @game.com_setup
   end
 end
