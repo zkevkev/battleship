@@ -24,6 +24,11 @@ RSpec.describe Cell do
     it "defaults to true" do
       expect(@cell_1.empty?).to be true
     end
+
+    it "can show if cell is occupied" do
+      @cell_1.place_ship(@cruiser)
+      expect(@cell_1.empty?).to be false
+    end
   end
 
   describe "#place_ship" do
@@ -36,7 +41,7 @@ RSpec.describe Cell do
     end
   end
 
-  describe "#fire_upon and #fired_upon?" do
+  describe "#fire_upon" do
     it "fires on a cell and updates state" do
       @cell_1.place_ship(@cruiser)
       expect(@cell_1.fired_upon?).to be false
@@ -49,6 +54,18 @@ RSpec.describe Cell do
       expect(@cell_1.fired_upon?).to be false
       @cell_1.fire_upon
       expect(@cell_1.fired_upon?).to be true
+    end
+  end
+
+  describe "#fired_upon?" do
+    it "reports if a cell has been fired upon" do
+      @cell_1.place_ship(@cruiser)
+      expect(@cell_1.fired_upon?).to be false
+      @cell_1.fire_upon
+      expect(@cell_1.fired_upon?).to be true
+      expect(@cell_2.fired_upon?).to be false
+      @cell_2.fire_upon
+      expect(@cell_2.fired_upon?).to be true
     end
   end
 
@@ -82,7 +99,7 @@ RSpec.describe Cell do
       expect(@cell_2.render).to eq("H")
       @cell_3.fire_upon
       expect(@cell_2.render).to eq("X")
-  end
+    end
 
     it "reveals ship location when passed true" do
       expect(@cell_1.render).to eq(".")
