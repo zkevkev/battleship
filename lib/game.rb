@@ -123,11 +123,15 @@ class Game
   end
 
   def game_over
+    puts "=============COMPUTER BOARD============="
+    puts @com_board.render
+    puts "==============PLAYER BOARD=============="
+    puts @user_board.render(true)
     if @user_cruiser.health == 0 && @user_sub.health == 0
-      puts "You just lost to a computer made by mod 1 students. Pathetic. Press any key to go to main menu."
+      puts "You just lost to a computer made by mod 1 students. Pathetic. Press return to go to main menu."
       gets.chomp
     else
-      puts "You may have won this battle, but you haven't seen the last of me. Press any key to go to main menu."
+      puts "You may have won this battle, but you haven't seen the last of me. Press return to go to main menu."
       gets.chomp
     end
     @user_board.clear_board
