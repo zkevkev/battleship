@@ -97,19 +97,21 @@ class Game
   end
 
   def turn_result
-    if @com_board.cells[@user_shot_input].ship == nil
+    com_board_cell_render = @com_board.cells[@user_shot_input].render
+    if com_board_cell_render  == "M"
       user_shot_outcome = "miss."
-    elsif @com_board.cells[@user_shot_input].ship != nil && @com_board.cells[@user_shot_input].ship.health > 0
+    elsif com_board_cell_render == "H"
       user_shot_outcome = "hit!"
-    elsif @com_board.cells[@user_shot_input].ship != nil && @com_board.cells[@user_shot_input].ship.health <= 0
+    elsif com_board_cell_render == "S"
       user_shot_outcome = "hit! You sunk my #{@com_board.cells[@user_shot_input].ship.name}. Blyat."
     end
 
-    if @user_board.cells[@com_shot].ship == nil
+    user_board_cell_render = @user_board.cells[@com_shot].render
+    if user_board_cell_render == "M"
       com_shot_outcome = "miss."
-    elsif @user_board.cells[@com_shot].ship != nil && @user_board.cells[@com_shot].ship.health > 0
+    elsif user_board_cell_render == "H"
       com_shot_outcome = "hit!"
-    elsif @user_board.cells[@com_shot].ship != nil && @user_board.cells[@com_shot].ship.health <= 0
+    elsif user_board_cell_render == "X"
       com_shot_outcome = "hit! I sunk your #{@user_board.cells[@com_shot].ship.name}."
     end
 
@@ -121,10 +123,16 @@ class Game
   end
 
   def game_over
+    puts "=============COMPUTER BOARD============="
+    puts @com_board.render
+    puts "==============PLAYER BOARD=============="
+    puts @user_board.render(true)
     if @user_cruiser.health == 0 && @user_sub.health == 0
-      puts "You just lost to a computer made by mod 1 students. Pathetic."
+      puts "You just lost to a computer made by mod 1 students. Pathetic. Press return to go to main menu."
+      gets.chomp
     else
-      puts "You may have won this battle, but you haven't seen the last of me."
+      puts "You may have won this battle, but you haven't seen the last of me. Press return to go to main menu."
+      gets.chomp
     end
     @user_board.clear_board
     @com_board.clear_board

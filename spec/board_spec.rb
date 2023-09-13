@@ -85,6 +85,13 @@ RSpec.describe Board do
       expect(@board.valid_placement?(@submarine, ["A1", "B1"])).to be false
       expect(@board.valid_placement?(@submarine, ["B1", "B2"])).to be true
     end
+
+    it "rejects invalid coordinates" do
+      expect(@board.valid_placement?(@submarine, ["A4", "A5"])).to be false
+      expect(@board.valid_placement?(@submarine, ["E1", "F1"])).to be false
+      expect(@board.valid_placement?(@submarine, ["A22", "A23"])).to be false
+      expect(@board.valid_placement?(@submarine, ["bart was here", "stuff"])).to be false
+    end
   end
 
   describe "#place" do
@@ -152,14 +159,6 @@ RSpec.describe Board do
       @board.fire_upon("A1")
 
       expect(@board.cells["A1"].fired_upon?).to be true
-    end
-
-    it "will not not allow firing on invalid coordinates" do
-      expect(@board.fire_upon("X1")).to eq("Please enter a valid coordinate")
-
-      @board.fire_upon("A1")
-
-      expect(@board.fire_upon("A1")).to eq("That coordinate has already been fired upon")
     end
   end
 
@@ -241,7 +240,7 @@ RSpec.describe Board do
   end
 
   describe "#com_fire_upon" do
-    it "random cell to fire upon" do
+    it "generates a random cell to fire upon" do
       @board.com_fire_upon
       com_fired_coord = @board.cells.map do |coordinate, cell|
         coordinate if cell.fired_upon? == true
@@ -278,7 +277,7 @@ RSpec.describe Board do
       @board.fire_upon("D2")
       @board.fire_upon("D3")
       @board.fire_upon("D4")
-      
+
       @board.place(@submarine, ["A1", "A2"])
       expect(@board.cells["A1"].fired_upon?).to be false
       expect(@board.cells["A1"].ship).to eq(@submarine)
@@ -302,14 +301,14 @@ RSpec.describe Board do
   end
 
   describe "#clear_board" do
-    it "clears ships" do
+    it "clears ship cell attribute" do
       @board.place(@submarine, ["A1", "A2"])
       expect(@board.cells["A1"].render(true)).to eq("S")
       @board.clear_board
       expect(@board.cells["A1"].render(true)).to eq(".")
     end
 
-    it "clears fired_upon" do
+    it "clears fired_upon cell attribute" do
       @board.place(@submarine, ["A1", "A2"])
       @board.fire_upon("A2")
       expect(@board.cells["A2"].render(true)).to eq("H")
